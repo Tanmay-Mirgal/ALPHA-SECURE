@@ -10,6 +10,7 @@ import StockPage from "./pages/Stock/StockPage";
 import Insurance from "./pages/Stock/Insurance";
 import Prediction from "./pages/prediction/Prediction";
 import Dashboard from "./pages/Dashboard/Dashboard";
+import Profile from "./pages/Profile/Profile";
 
 function App() {
   
@@ -41,6 +42,10 @@ function App() {
         <Route
           path="/dashboard"
           element={<Dashboard /> }
+        />
+        <Route
+          path="/profile"
+          element={<Profile/> }
         />
         
         <Route path="*" element={<Error />} />
