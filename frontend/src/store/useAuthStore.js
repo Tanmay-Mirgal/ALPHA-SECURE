@@ -1,7 +1,6 @@
-import { create } from 'zustand'
-import { axiosInstance } from '../lib/axios'
+import { create } from 'zustand';
+import { axiosInstance } from '../lib/axios';
 import toast from "react-hot-toast";
-
 
 export const useAuthStore = create((set) => ({
   user: JSON.parse(localStorage.getItem('user')) || null,
@@ -9,76 +8,79 @@ export const useAuthStore = create((set) => ({
   isError: false,
   error: null,
 
-
+  // Signup Function
   signup: async (data) => {
     try {
       set({ isLoading: true });
+
       const response = await axiosInstance.post('/auth/register', data);
       const { user, token } = response.data;
+
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
-      set({
-        isLoading: false,
-        isError: false,
-        user
-      });
-      toast.success('User registered successfully');
+
+      set({ user, isLoading: false, isError: false });
+
+    
 
       return user;
-
     } catch (error) {
       console.error(error);
-      const errorMessage = error?.response?.data?.message || 'An unexpected error occurred';
+      const errorMessage = error?.response?.data?.message || 'Signup failed. Please try again.';
+      
       set({ isError: true, error: errorMessage, isLoading: false });
+
       toast.error(errorMessage);
       throw error;
     }
   },
-
   login: async (data) => {
     try {
       set({ isLoading: true });
+
       const response = await axiosInstance.post('/auth/login', data);
       const { user, token } = response.data;
+
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
-      set({
-        isLoading: false,
-        isError: false,
-        user
-      });
-      toast.success('User logged in successfully');
+
+      set({ user, isLoading: false, isError: false });
+
+      toast.success(`Welcome back, ${user.fullName.firstName}! 🚀`);
+
       return user;
     } catch (error) {
       console.error(error);
-      const errorMessage = error?.response?.data?.message || error.message || 'An unexpected error occurred';
+      const errorMessage = error?.response?.data?.message || 'Login failed. Check your credentials.';
+
       set({ isError: true, error: errorMessage, isLoading: false });
+
       toast.error(errorMessage);
       throw error;
     }
   },
 
+  // Logout Function
   logout: async () => {
     try {
-      set({ isLoading: true })
-      const response = await axiosInstance.get('/auth/logout');
-      const { user, token } = response.data;
+      set({ isLoading: true });
+
+      await axiosInstance.get('/auth/logout');  // Optional, depends on backend
+
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      set({
-        isLoading: false,
-        isError: false,
-        user: null
-      })
-      toast.success('User logged out successfully');
-      return user;
+
+      set({ user: null, isLoading: false, isError: false });
+
+      toast.success('Logged out successfully. See you soon! 👋');
     } catch (error) {
-      console.error(error)
-      const errorMessage = error?.response?.data?.message || 'An unexpected error occurred';
+      console.error(error);
+      const errorMessage = error?.response?.data?.message || 'Logout failed. Try again.';
+      
       set({ isError: true, error: errorMessage, isLoading: false });
+
       toast.error(errorMessage);
       throw error;
     }
   },
-
-}))
+}));
