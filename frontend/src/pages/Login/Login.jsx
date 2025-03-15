@@ -1,20 +1,27 @@
 import React, { useState } from 'react';
 import { Input } from '../../components/ui/input';
 import { Button } from '../../components/ui/button';
-import { Eye } from 'lucide-react';
-
+import { Eye, EyeOff } from 'lucide-react';
+import { useAuthStore } from '../../store/useAuthStore';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
   // State to track input values
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-const { login }= useAuthStore()
+  const { login, isLoading } = useAuthStore();
+ const navigate = useNavigate();
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await login({ email, password });
-    
+    try {
+      await login({ email, password });
+     navigate("/")
+    } catch (error) {
+      toast.error("Login failed. Please check your credentials.");
+    }
   };
 
   // Toggle password visibility
@@ -27,7 +34,6 @@ const { login }= useAuthStore()
       {/* Left Side - Login Form */}
       <div className="flex flex-col justify-center px-8 md:px-16 lg:px-24 w-full lg:w-1/2">
         <div className="mb-10">
-          <div className="flex items-center mb-6"></div>
           <h1 className="text-2xl font-medium text-white mb-1">Welcome Back</h1>
           <p className="text-gray-500 text-sm">Sign in to your account</p>
         </div>
@@ -38,22 +44,16 @@ const { login }= useAuthStore()
             <label htmlFor="email" className="block text-sm text-white">
               Email
             </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
-                  <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                  <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-                </svg>
-              </div>
-              <Input 
-                type="email" 
-                id="email" 
-                placeholder="you@example.com" 
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-10 py-5 bg-gray-900/40 border border-gray-800/40 rounded-md text-gray-300 focus:outline-none focus:border-amber-500/50"
-              />
-            </div>
+            <Input 
+              type="email" 
+              id="email" 
+              name="email"
+              placeholder="you@example.com" 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="w-full pl-4 py-4 bg-gray-900/40 border border-gray-800/40 rounded-md text-gray-300 focus:outline-none focus:border-amber-500/50"
+            />
           </div>
 
           {/* Password Input */}
@@ -62,28 +62,34 @@ const { login }= useAuthStore()
               Password
             </label>
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
-                </svg>
-              </div>
               <Input 
                 type={showPassword ? 'text' : 'password'}
                 id="password" 
+                name="password"
                 placeholder="••••••••" 
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-10 pr-10 py-5 bg-gray-900/40 border border-gray-800/40 rounded-md text-gray-300 focus:outline-none focus:border-amber-500/50"
+                required
+                className="w-full pl-4 pr-10 py-4 bg-gray-900/40 border border-gray-800/40 rounded-md text-gray-300 focus:outline-none focus:border-amber-500/50"
               />
-              <button type="button" onClick={togglePasswordVisibility} className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
-                <Eye size={20} />
+              {/* Toggle Password Visibility */}
+              <button 
+                type="button" 
+                onClick={togglePasswordVisibility} 
+                className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-amber-500 transition-colors"
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
             </div>
           </div>
 
           {/* Submit Button */}
-          <Button className="w-full py-6 bg-amber-500 hover:bg-amber-600 text-gray-900 rounded-md font-medium transition-colors">
-            Sign in
+          <Button 
+            type="submit"
+            disabled={isLoading}
+            className="w-full py-4 bg-amber-500 hover:bg-amber-600 text-gray-900 rounded-md font-medium transition-colors"
+          >
+            {isLoading ? "Signing in..." : "Sign in"}
           </Button>
 
           <div className="text-center text-gray-500 text-sm mt-4">

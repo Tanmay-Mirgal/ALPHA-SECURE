@@ -12,6 +12,7 @@ import Prediction from "./pages/prediction/Prediction";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Profile from "./pages/Profile/Profile";
 import EKYCForm from "./pages/Profile/EKYC_form";
+import { Toaster } from "react-hot-toast";
 import Header from "./components/Header/Header";
 
 function App() {
@@ -57,8 +58,8 @@ function App() {
         {/* <Route path="*" element={<Error />} /> */}
       </Routes>
         {/* <Footer /> */}
-        <ToastContainer />
-      {/* <Toaster position="bottom-right" /> */}
+        {/* <ToastContainer /> */}
+      <Toaster position="bottom-right" />
     </>
   );
 }
