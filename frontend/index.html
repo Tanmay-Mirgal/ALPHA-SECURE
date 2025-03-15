@@ -4,10 +4,35 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
+    <title>BACHAT -- FINANACE PLATFORM</title>
+    <style>
+      .skiptranslate {
+        display: none !important;
+      }
+      .goog-te-banner-frame {
+        display: none !important;
+      }
+      body {
+        top: 0px !important;
+      }
+    </style>
   </head>
-  <body class="bg-gray-900">
+  <body>
     <div id="root"></div>
+    <div id="google_translate_element"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+          {
+            pageLanguage: 'en',
+            includedLanguages: 'en,hi,mr,bn,gu,kn',
+            autoDisplay: false,
+          },
+          'google_translate_element'
+        );
+      }
+    </script>
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
   </body>
 </html>

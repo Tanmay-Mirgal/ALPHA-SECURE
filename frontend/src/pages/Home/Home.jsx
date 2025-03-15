@@ -27,7 +27,7 @@ const LandingPage = () => {
             </div>
             <div className="w-full md:w-2/5">
               <div className="bg-gray-800 p-2 rounded-xl shadow-2xl">
-                <img src="./public/download_99.20634920634922.svg" alt="Financial Dashboard" className="rounded-lg w-full" />
+                <img src="/download_99.20634920634922.svg" alt="Financial Dashboard" className="rounded-lg w-full" />
               </div>
             </div>
           </div>
