@@ -7,6 +7,7 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
+      //Translate
     <header className="sticky top-0 z-50 w-full border-b border-gray-700 bg-gray-900 shadow-md">
       <div className="container mx-auto px-6 flex items-center justify-between h-16">
         {/* Logo */}

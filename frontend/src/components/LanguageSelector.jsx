@@ -27,6 +27,7 @@ export  default function LanguageSelector() {
   };
 
   // Initialize Google Translate
+  //Translate
   React.useEffect(() => {
     const interval = setInterval(() => {
       const select = document.querySelector('.goog-te-combo');
