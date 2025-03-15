@@ -22,14 +22,7 @@ function App() {
           path="/signup"
           element={<Signup /> }
         />
-        {/* <Route
-          path="/profile"
-          element={<ProfilePage /> }
-        />
-        <Route
-          path="/update-profile"
-          element={<UpdateProfile /> }
-        /> */}
+        
         <Route path="*" element={<Error />} />
       </Routes>
         {/* <Footer /> */}
