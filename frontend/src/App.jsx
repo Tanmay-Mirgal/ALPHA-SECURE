@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import StockPage from "./pages/Stock/StockPage";
 import Insurance from "./pages/Stock/Insurance";
 import Prediction from "./pages/prediction/Prediction";
+import Dashboard from "./pages/Dashboard/Dashboard";
 
 function App() {
   
@@ -36,6 +37,10 @@ function App() {
          <Route
           path="/predict"
           element={<Prediction /> }
+        />
+        <Route
+          path="/dashboard"
+          element={<Dashboard /> }
         />
         
         <Route path="*" element={<Error />} />

@@ -4,6 +4,7 @@ import { Card, CardContent, CardTitle } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from "../../components/ui/dialog";
 import { Badge } from "../../components/ui/badge";
+import { TrendingUp, TrendingDown, Activity, ArrowUp, ArrowDown } from "lucide-react";
 
 const StockPredictor = () => {
   const [companies, setCompanies] = useState([]);
@@ -116,21 +117,36 @@ const StockPredictor = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <Card className="border-none" style={{ background: colors.cardGradient.green }}>
             <CardContent className="p-4">
-              <p className="text-gray-300 mb-1">NIFTY 50</p>
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-gray-300">NIFTY 50</p>
+                <TrendingUp size={20} color={colors.positive} />
+              </div>
               <p className="text-2xl font-bold text-white">22,474.75</p>
-              <p style={{ color: colors.positive }}>+0.75% ↑</p>
+              <div className="flex items-center mt-1">
+                <ArrowUp size={16} color={colors.positive} />
+                <p className="ml-1" style={{ color: colors.positive }}>+0.75%</p>
+              </div>
             </CardContent>
           </Card>
           <Card className="border-none" style={{ background: colors.cardGradient.blue }}>
             <CardContent className="p-4">
-              <p className="text-gray-300 mb-1">SENSEX</p>
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-gray-300">SENSEX</p>
+                <TrendingDown size={20} color={colors.negative} />
+              </div>
               <p className="text-2xl font-bold text-white">73,890.32</p>
-              <p style={{ color: colors.negative }}>-0.21% ↓</p>
+              <div className="flex items-center mt-1">
+                <ArrowDown size={16} color={colors.negative} />
+                <p className="ml-1" style={{ color: colors.negative }}>-0.21%</p>
+              </div>
             </CardContent>
           </Card>
           <Card className="border-none" style={{ background: colors.cardGradient.purple }}>
             <CardContent className="p-4">
-              <p className="text-gray-300 mb-1">Market Mood</p>
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-gray-300">Market Mood</p>
+                <Activity size={20} color={colors.neutral} />
+              </div>
               <p className="text-2xl font-bold text-white">Bullish</p>
               <p style={{ color: colors.neutral }}>Volatility: Medium</p>
             </CardContent>
