@@ -1,22 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Input } from '../../components/ui/input';
 import { Button } from '../../components/ui/button';
 import { Eye } from 'lucide-react';
 
+
 const LoginPage = () => {
+  // State to track input values
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+const { login }= useAuthStore()
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await login({ email, password });
+    
+  };
+
+  // Toggle password visibility
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className="flex min-h-screen bg-gray-950">
       {/* Left Side - Login Form */}
       <div className="flex flex-col justify-center px-8 md:px-16 lg:px-24 w-full lg:w-1/2">
         <div className="mb-10">
-          <div className="flex items-center mb-6">
-            
-          </div>
+          <div className="flex items-center mb-6"></div>
           <h1 className="text-2xl font-medium text-white mb-1">Welcome Back</h1>
           <p className="text-gray-500 text-sm">Sign in to your account</p>
         </div>
 
-        <div className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Email Input */}
           <div className="space-y-2">
             <label htmlFor="email" className="block text-sm text-white">
               Email
@@ -32,11 +49,14 @@ const LoginPage = () => {
                 type="email" 
                 id="email" 
                 placeholder="you@example.com" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full pl-10 py-5 bg-gray-900/40 border border-gray-800/40 rounded-md text-gray-300 focus:outline-none focus:border-amber-500/50"
               />
             </div>
           </div>
 
+          {/* Password Input */}
           <div className="space-y-2">
             <label htmlFor="password" className="block text-sm text-white">
               Password
@@ -48,17 +68,20 @@ const LoginPage = () => {
                 </svg>
               </div>
               <Input 
-                type="password" 
+                type={showPassword ? 'text' : 'password'}
                 id="password" 
                 placeholder="••••••••" 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="w-full pl-10 pr-10 py-5 bg-gray-900/40 border border-gray-800/40 rounded-md text-gray-300 focus:outline-none focus:border-amber-500/50"
               />
-              <button type="button" className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
+              <button type="button" onClick={togglePasswordVisibility} className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
                 <Eye size={20} />
               </button>
             </div>
           </div>
 
+          {/* Submit Button */}
           <Button className="w-full py-6 bg-amber-500 hover:bg-amber-600 text-gray-900 rounded-md font-medium transition-colors">
             Sign in
           </Button>
@@ -67,7 +90,7 @@ const LoginPage = () => {
             Don't have an account?{' '}
             <a href="/signup" className="text-amber-500 hover:text-amber-400">Create account</a>
           </div>
-        </div>
+        </form>
       </div>
 
       {/* Right Side - Welcome Section */}

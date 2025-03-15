@@ -11,6 +11,9 @@ import { Server } from "socket.io";
 import morgan from "morgan";
 
 import authRoutes from "./routes/authRoutes.js"
+import stockRoutes from "./routes/stockRoutes.js"
+import transactionRoutes from "./routes/transactionRoutes.js"
+import kycRoutes from "./routes/kycRoutes.js"
 import { networkInterfaces } from 'os';
 import db from "./config/db.js";
 
@@ -56,8 +59,11 @@ app.use(
 );
 app.use(express.static(path.join(__dirname, "frontend/dist"))); 
 
-
+//change
 app.use("/api/auth", authRoutes);
+app.use("/api/stocks", stockRoutes);
+app.use("/api/transaction",transactionRoutes)
+app.use("/api/kyc",kycRoutes);
 
 
 

@@ -6,7 +6,7 @@ import { sendMail } from '../utils/sendMail.js';
 import { LoginTemplate, WelcomeTemplate } from '../templates/Welcome.js';
 import User from '../models/userModel.js';
 
-
+//change
 export const signupController = async (req, res) => {
     try {
         const { firstName, lastName, email, password } = req.body;
