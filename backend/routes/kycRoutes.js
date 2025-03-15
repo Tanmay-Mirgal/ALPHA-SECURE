@@ -9,5 +9,5 @@ router.post("/submit",  submitKYC);
 router.put("/verify/:kycId", verifyKYC);
 router.get("/all",  getKYCDetails);
 router.get("/:userId", getUserKYC);
-
+//change
 export default router;

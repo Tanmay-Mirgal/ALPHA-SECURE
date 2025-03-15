@@ -59,7 +59,7 @@ app.use(
 );
 app.use(express.static(path.join(__dirname, "frontend/dist"))); 
 
-
+//change
 app.use("/api/auth", authRoutes);
 app.use("/api/stocks", stockRoutes);
 app.use("/api/transaction",transactionRoutes)

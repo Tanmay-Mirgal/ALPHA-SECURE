@@ -1,6 +1,6 @@
 import StockPrice from "../models/stockModel.js";
 import sliced from "../templates/Stocks.js";
-
+//change
 export const massFeeding = async (req, res) => {
     try {
         const bulkOps = sliced.map(stock => ({

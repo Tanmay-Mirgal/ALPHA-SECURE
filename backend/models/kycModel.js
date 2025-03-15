@@ -1,6 +1,6 @@
 import mongoose  from "mongoose"
 
-
+//chnage
 const KYCDocumentSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     documentType: { type: String, enum: ['passport', 'national_id', 'drivers_license', 'utility_bill'], required: true },

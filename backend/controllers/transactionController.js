@@ -19,7 +19,7 @@ const generateReceipt = (prefix, userId, symbol) => {
     try {
       const { symbol, quantity } = req.body;
       const userId = req.user._id;
-      
+     //change 
       if (!userId || !symbol || !quantity || quantity <= 0) {
         return res.status(400).json({ message: "Invalid input data" });
       }

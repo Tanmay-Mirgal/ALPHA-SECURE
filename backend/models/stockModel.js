@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-
+//change
 const stockPriceSchema = new mongoose.Schema({
   open: {
     type: Number,

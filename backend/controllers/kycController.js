@@ -36,7 +36,7 @@ export const submitKYC = async (req, res) => {
       res.status(500).json({ message: "Error submitting KYC", error: error.message });
     }
   };
-
+//change
 export const verifyKYC = async (req, res) => {
   try {
     const { kycId } = req.params;

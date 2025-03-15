@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Input } from '../../components/ui/input';
 import { Button } from '../../components/ui/button';
 import { Eye } from 'lucide-react';
-import { useAuthStore } from "../../store/UseAuthStore";
+
 
 const LoginPage = () => {
   // State to track input values
