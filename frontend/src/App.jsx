@@ -12,12 +12,13 @@ import Prediction from "./pages/prediction/Prediction";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Profile from "./pages/Profile/Profile";
 import { Toaster } from "react-hot-toast";
+import Header from "./components/Header/Header";
 
 function App() {
   
   return (
     <>
-      {/* <Navbar /> */}
+     <Header/>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route
@@ -49,7 +50,7 @@ function App() {
           element={<Profile/> }
         />
         
-        <Route path="*" element={<Error />} />
+        {/* <Route path="*" element={<Error />} /> */}
       </Routes>
         {/* <Footer /> */}
         {/* <ToastContainer /> */}
