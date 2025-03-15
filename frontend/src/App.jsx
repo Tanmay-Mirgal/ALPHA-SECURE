@@ -11,6 +11,7 @@ import Insurance from "./pages/Stock/Insurance";
 import Prediction from "./pages/prediction/Prediction";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Profile from "./pages/Profile/Profile";
+import Header from "./components/Header/Header";
 
 function App() {
   
