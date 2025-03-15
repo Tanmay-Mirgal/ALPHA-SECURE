@@ -1,9 +1,7 @@
-
 import { Route, Routes, Navigate } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Signup from "./pages/Signup/Signup";
-// import ProfilePage from "./pages/Profile/Profile";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import StockPage from "./pages/Stock/StockPage";
@@ -15,50 +13,49 @@ import EKYCForm from "./pages/Profile/EKYC_form";
 import { Toaster } from "react-hot-toast";
 import Header from "./components/Header/Header";
 
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import Footer from "./components/Footer/Footer";
+
 function App() {
-  
   return (
     <>
-     <Header/>
+      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route
-          path="/login"
-          element={ <Login /> }
-        />
-        <Route
-          path="/signup"
-          element={<Signup /> }
-        />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+
+        {/* Protected Routes */}
         <Route
           path="/stock"
-          element={<StockPage /> }
+          element={<ProtectedRoute><StockPage /></ProtectedRoute>}
         />
         <Route
           path="/insurance"
-          element={<Insurance /> }
+          element={<ProtectedRoute><Insurance /></ProtectedRoute>}
         />
-         <Route
+        <Route
           path="/predict"
-          element={<Prediction /> }
+          element={<ProtectedRoute><Prediction /></ProtectedRoute>}
         />
         <Route
           path="/dashboard"
-          element={<Dashboard /> }
+          element={<ProtectedRoute><Dashboard /></ProtectedRoute>}
         />
         <Route
           path="/profile"
-          element={<Profile/> }
+          element={<ProtectedRoute><Profile /></ProtectedRoute>}
         />
         <Route
           path="/e-kyc"
-          element={<EKYCForm/> }
+          element={<ProtectedRoute><EKYCForm /></ProtectedRoute>}
         />
-        
-        {/* <Route path="*" element={<Error />} /> */}
+
+
       </Routes>
-        {/* <Footer /> */}
-        {/* <ToastContainer /> */}
+<Footer/>
+      {/* Toast Notifications */}
+      <ToastContainer position="bottom-right" />
       <Toaster position="bottom-right" />
     </>
   );
