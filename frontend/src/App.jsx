@@ -9,6 +9,7 @@ import { ClipLoader } from "react-spinners";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import ROICalculator from "./pages/RoiCalculator/RoiCalculator";
 
 // Lazy Load Pages
 const Home = lazy(() => import("./pages/Home/Home"));
@@ -84,6 +85,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <EKYCForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/roi"
+            element={
+              <ProtectedRoute>
+              <ROICalculator />
               </ProtectedRoute>
             }
           />
