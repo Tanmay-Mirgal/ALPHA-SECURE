@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { Menu, LogOut, User, BarChart2, Shield, LineChart, Calculator } from "lucide-react";
+import { Menu, LogOut, User, BarChart2, Shield, LineChart, Calculator, Book } from "lucide-react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { Button } from "../../components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar";
@@ -26,7 +26,8 @@ function Header() {
     { name: "STOCKS", href: "/stock", icon: <BarChart2 className="h-4 w-4 mr-2" /> },
     { name: "INSURANCE", href: "/insurance", icon: <Shield className="h-4 w-4 mr-2" /> },
     { name: "PREDICT STOCKS", href: "/predict", icon: <LineChart className="h-4 w-4 mr-2" /> },
-    { name : "ROI Calculator", href: "/roi", icon: <Calculator className="h-4 w-4 mr-2" /> }
+    { name : "ROI Calculator", href: "/roi", icon: <Calculator className="h-4 w-4 mr-2" /> },
+    { name : "E-Learning", href: "/e-learn", icon: <Book className="h-4 w-4 mr-2" /> }
   ];
 
   return (
@@ -34,11 +35,10 @@ function Header() {
       <div className="container mx-auto px-6 flex items-center justify-between h-16">
         {/* Logo */}
         <Link to="/" className="flex items-center">
-          <div className="h-10 w-10 rounded-full bg-green-500 flex items-center justify-center mr-2">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6 text-white">
-              <path d="M3.375 3C2.339 3 1.5 3.84 1.5 4.875V20.25C1.5 21.285 2.339 22.125 3.375 22.125H20.625C21.661 22.125 22.5 21.285 22.5 20.25V4.875C22.5 3.84 21.661 3 20.625 3H3.375zM9 14.25H6.75v1.5H9v-1.5zm0-3H6.75v1.5H9v-1.5zM9 8.25H6.75v1.5H9v-1.5zm9.75 6H15v1.5h3.75v-1.5zm0-3H15v1.5h3.75v-1.5zm0-3H15v1.5h3.75v-1.5z" />
-            </svg>
-          </div>
+          
+          
+            <img src="/logo-removebg-preview.png" alt="" className="w-[14vh] h-[14vh]"/>
+          
           <span className="text-lg font-semibold text-white tracking-wide">Bachat</span>
         </Link>
 
