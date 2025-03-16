@@ -32,7 +32,7 @@ function App() {
       <ToastContainer position="bottom-right" />
 
       {/* Routes with Lazy Loading & Suspense */}
-      <Suspense fallback={<div className="text-center mt-10">Loading...</div>}>
+      <Suspense fallback={<div className="text-center mt-10"><ClipLoader size={50} color={"#123abc"} loading={true} /></div>}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />

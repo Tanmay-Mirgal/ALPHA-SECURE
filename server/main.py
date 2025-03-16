@@ -5,6 +5,10 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS  # Enable CORS for React
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import GradientBoostingRegressor
+import cv2
+from werkzeug.utils import secure_filename
+import os
+import time
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -78,5 +82,43 @@ def predict():
     result = predict_stock_future(stock_name)
     return jsonify(result)
 
+# Load pre-trained face detection model
+face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+UPLOAD_FOLDER = "./uploads"
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+# Function to detect faces
+def detect_face(image_path):
+    img = cv2.imread(image_path)
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    faces = face_cascade.detectMultiScale(gray, 1.1, 4)
+    return len(faces) > 0
+
+# API endpoint for face detection
+@app.route('/verify-face', methods=['POST'])
+def verify_face():
+    if 'file' not in request.files:
+        return jsonify({'verified': False, 'error': 'No file uploaded'})
+
+    file = request.files['file']
+    filename = secure_filename(file.filename)
+    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+    # TODO: Add your face verification logic here
+    # Simulating success response
+    return jsonify({'verified': True})
+
+@app.route('/submit-docs', methods=['POST'])
+def submit_docs():
+    user_id = request.form.get('userId')
+    document_type = request.form.get('documentType')
+    document = request.files.get('documentFront')
+
+    if document:
+        doc_filename = secure_filename(document.filename)
+        document.save(os.path.join(app.config['UPLOAD_FOLDER'], doc_filename))
+
+    return jsonify({'success': True, 'message': 'Documents submitted successfully'})
 if __name__ == "__main__":
     app.run(debug=True)
