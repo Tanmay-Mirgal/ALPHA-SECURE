@@ -1,14 +1,60 @@
 import React from 'react';
 import { DollarSign, TrendingUp, TrendingDown } from 'lucide-react';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '../../components/ui/dialog';
-import ZigzagStockChart from './StockChart';
 
+// Dummy data generator function with specific price ranges
+const generateDummyData = (stock, days = 30) => {
+  if (!stock || typeof stock.adj_close !== 'number') {
+    return [];
+  }
 
+  const priceRanges = [62, 75, 50, 84]; // Specific price points to use
+  const data = [];
+  const today = new Date();
+  
+  for (let i = days - 1; i >= 0; i--) {
+    const date = new Date(today);
+    date.setDate(date.getDate() - i);
+    
+    // Use price ranges to generate more realistic movements
+    const baseIndex = Math.floor(i / (days / priceRanges.length));
+    const currentBase = priceRanges[baseIndex];
+    const nextBase = priceRanges[(baseIndex + 1) % priceRanges.length];
+    
+    // Calculate price movement between base prices
+    const progress = (i % (days / priceRanges.length)) / (days / priceRanges.length);
+    const basePrice = currentBase + (nextBase - currentBase) * progress;
+    
+    // Add some daily volatility
+    const volatility = 0.015; // 1.5% daily volatility
+    const randomChange = (Math.random() - 0.5) * volatility * basePrice;
+    
+    const adj_open = basePrice + randomChange;
+    const adj_close = adj_open + (Math.random() - 0.5) * volatility * basePrice;
+    const adj_high = Math.max(adj_open, adj_close) + Math.random() * volatility * basePrice;
+    const adj_low = Math.min(adj_open, adj_close) - Math.random() * volatility * basePrice;
+    
+    data.push({
+      date: date.toISOString(),
+      symbol: stock.symbol || "AAPL",
+      __v: 0,
+      adj_close: Number(adj_close.toFixed(2)),
+      adj_high: Number(adj_high.toFixed(2)),
+      adj_low: Number(adj_low.toFixed(2)),
+      adj_open: Number(adj_open.toFixed(2)),
+      adj_volume: Math.floor(Math.random() * 8000000) + 1000000,
+      close: Number(adj_close.toFixed(2)),
+      dividend: stock.dividend || 0.22,
+      exchange: stock.exchange || "NASDAQ",
+      high: Number(adj_high.toFixed(2)),
+      low: Number(adj_low.toFixed(2)),
+      open: Number(adj_open.toFixed(2)),
+      split_factor: stock.split_factor || 1,
+      volume: Math.floor(Math.random() * 8000000) + 1000000
+    });
+  }
+  
+  return data;
+};
 
 const StockDialog = ({
   isOpen,
@@ -17,6 +63,7 @@ const StockDialog = ({
   onBuy,
   onSell,
   portfolio,
+  historicalData
 }) => {
   if (!stock) return null;
 
@@ -24,9 +71,12 @@ const StockDialog = ({
   const percentageChange = ((stock.adj_close - stock.adj_open) / stock.adj_open) * 100;
   const sharesOwned = portfolio[stock.symbol] || 0;
 
+  // Generate dummy data based on the current stock data if no historical data
+
+
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px] bg-gray-900 border-gray-800">
+      <DialogContent className="sm:max-w-[800px] bg-gray-900 border-gray-800">
         <DialogHeader>
           <DialogTitle className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -41,14 +91,16 @@ const StockDialog = ({
           </DialogTitle>
         </DialogHeader>
 
-        <div className="h-[300px] mb-6">
-          <ZigzagStockChart 
-            data={[
-              { time: '9:30', value: stock.adj_open },
-              { time: '16:00', value: stock.adj_close }
-            ]} 
+        <div className="mb-6">
+          {/* <StockChart 
+            data={chartData}
             color={isGainer ? '#22c55e' : '#ef4444'} 
-          />
+          /> */}
+          {!historicalData?.length && (
+            <p className="text-sm text-gray-400 text-center mt-2">
+              Showing simulated historical data
+            </p>
+          )}
         </div>
 
         <div className="space-y-4">

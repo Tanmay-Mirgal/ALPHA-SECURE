@@ -1,58 +1,151 @@
 import React from 'react';
-import { TrendingUp, TrendingDown } from 'lucide-react';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  ReferenceLine,
+} from 'recharts';
 
-const StockCard = ({ stock, onClick, onBuy, onSell }) => {
-  const isGainer = stock.adj_close > stock.adj_open;
-  const percentageChange = ((stock.adj_close - stock.adj_open) / stock.adj_open) * 100;
+
+
+const calculateMA = (data, period) => {
+  return data.map((entry, index) => {
+    if (index < period - 1) return { ...entry, MA: null };
+    const sum = data.slice(index - period + 1, index + 1).reduce((acc, curr) => acc + curr.close, 0);
+    return { ...entry, [`MA${period}`]: sum / period };
+  });
+};
+
+const StockChart = ({ stock }) => {
+  // Generate more realistic sample data
+  const basePrice = stock.adj_close;
+  const volatility = basePrice * 0.02; // 2% volatility
+
+  const generatePrice = (base) => {
+    return base + (Math.random() - 0.5) * volatility;
+  };
+
+  const data = Array.from({ length: 100 }, (_, i) => {
+    const timestamp = new Date();
+    timestamp.setMinutes(timestamp.getMinutes() - (100 - i) * 15);
+    
+    const close = generatePrice(basePrice);
+    return {
+      time: timestamp.toLocaleTimeString(),
+      close,
+      volume: Math.floor(Math.random() * 100000) + 50000,
+    };
+  });
+
+  // Calculate moving averages
+  const dataWithMA = calculateMA(calculateMA(data, 20), 50);
+
+  // Calculate VWAP
+  let cumulativeTPV = 0;
+  let cumulativeVolume = 0;
+  const dataWithVWAP = dataWithMA.map((entry) => {
+    cumulativeTPV += entry.close * entry.volume;
+    cumulativeVolume += entry.volume;
+    return {
+      ...entry,
+      VWAP: cumulativeTPV / cumulativeVolume,
+    };
+  });
 
   return (
-    <div
-      className="border border-gray-700 bg-gray-800/50 p-6 rounded-xl shadow-lg cursor-pointer hover:bg-gray-800 transition-all duration-200 backdrop-blur-sm"
-      onClick={onClick}
-    >
-      <div className="flex justify-between items-start mb-4">
-        <div>
-          <h2 className="text-xl font-bold text-white">{stock.symbol}</h2>
-          <p className="text-sm text-gray-400">{stock.exchange}</p>
-        </div>
-        {isGainer ? (
-          <TrendingUp className="h-6 w-6 text-green-500" />
-        ) : (
-          <TrendingDown className="h-6 w-6 text-red-500" />
-        )}
-      </div>
-      
-      <div className="flex items-baseline gap-2 mb-4">
-        <p className="text-2xl font-semibold text-white">
-          ${stock.adj_close.toFixed(2)}
-        </p>
-        <span className={`text-sm font-medium ${isGainer ? 'text-green-500' : 'text-red-500'}`}>
-          {isGainer ? '+' : ''}{percentageChange.toFixed(2)}%
-        </span>
-      </div>
-
-      <div className="flex gap-2 mt-2">
-        <button 
-          className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg font-medium transition-colors duration-200"
-          onClick={(e) => {
-            e.stopPropagation();
-            onBuy && onBuy(stock);
-          }}
-        >
-          Buy
-        </button>
-        <button 
-          className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg font-medium transition-colors duration-200"
-          onClick={(e) => {
-            e.stopPropagation();
-            onSell && onSell(stock);
-          }}
-        >
-          Sell
-        </button>
-      </div>
+    <div className="w-full h-[400px] bg-slate-800 p-4 rounded-xl">
+      <ResponsiveContainer>
+        <LineChart data={dataWithVWAP} margin={{ top: 20, right: 30, left: 20, bottom: 10 }}>
+          <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+          <XAxis
+            dataKey="time"
+            stroke="#9CA3AF"
+            tick={{ fill: '#9CA3AF' }}
+            interval={19}
+            angle={-45}
+            textAnchor="end"
+          />
+          <YAxis
+            yAxisId="left"
+            stroke="#9CA3AF"
+            tick={{ fill: '#9CA3AF' }}
+            domain={['auto', 'auto']}
+          />
+          <YAxis
+            yAxisId="right"
+            orientation="right"
+            stroke="#9CA3AF"
+            tick={{ fill: '#9CA3AF' }}
+            domain={['auto', 'auto']}
+          />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: '#1F2937',
+              border: '1px solid #374151',
+              borderRadius: '8px',
+            }}
+            labelStyle={{ color: '#9CA3AF' }}
+            itemStyle={{ color: '#fff' }}
+          />
+          <Legend
+            verticalAlign="top"
+            height={36}
+            wrapperStyle={{
+              paddingBottom: '20px',
+              color: '#fff',
+            }}
+          />
+          <ReferenceLine
+            y={stock.adj_close}
+            stroke="#6B7280"
+            strokeDasharray="3 3"
+            label={{
+              value: 'Current Price',
+              fill: '#9CA3AF',
+              position: 'right',
+            }}
+          />
+          <Line
+            type="monotone"
+            dataKey="close"
+            stroke="#10B981"
+            dot={false}
+            name="Price"
+            yAxisId="left"
+          />
+          <Line
+            type="monotone"
+            dataKey="MA20"
+            stroke="#3B82F6"
+            dot={false}
+            name="MA20"
+            yAxisId="left"
+          />
+          <Line
+            type="monotone"
+            dataKey="MA50"
+            stroke="#EF4444"
+            dot={false}
+            name="MA50"
+            yAxisId="left"
+          />
+          <Line
+            type="monotone"
+            dataKey="VWAP"
+            stroke="#F59E0B"
+            dot={false}
+            name="VWAP"
+            yAxisId="left"
+          />
+        </LineChart>
+      </ResponsiveContainer>
     </div>
   );
 };
 
-export default StockCard;
+export default StockChart;
