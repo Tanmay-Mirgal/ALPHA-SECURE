@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer, BarChart, Bar, Legend, AreaChart, Area } from "recharts";
+import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer,ComposedChart, BarChart, Bar, Legend, AreaChart, Area, ReferenceLine } from "recharts";
+
 import { Card, CardContent, CardTitle } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from "../../components/ui/dialog";
 import { Badge } from "../../components/ui/badge";
-import { TrendingUp, TrendingDown, Activity, ArrowUp, ArrowDown } from "lucide-react";
+import { TrendingUp, TrendingDown, Activity, ArrowUp, ArrowDown, CreditCard, BadgeAlert, X } from "lucide-react";
 
 const StockPredictor = () => {
   const [companies, setCompanies] = useState([]);
@@ -215,75 +216,206 @@ const StockPredictor = () => {
 
       {/* Detail Dialog */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="max-w-3xl p-6 rounded-lg shadow-xl text-white" style={{ background: colors.bgSecondary }}>
-          <DialogHeader className="w-full flex justify-between">
-            <div>
-              <DialogTitle className="text-xl font-bold">{selectedStock} Prediction</DialogTitle>
-              <DialogDescription style={{ color: colors.text.secondary }}>AI-powered price analysis</DialogDescription>
-            </div>
-            {/* <DialogClose asChild>
-              <Button variant="ghost" className="text-white">✖</Button>
-            </DialogClose> */}
-          </DialogHeader>
+  <DialogContent className="max-w-4xl p-6 rounded-lg shadow-xl text-white" style={{ background: colors.bgSecondary }}>
+    <DialogHeader className="w-full flex justify-between items-center mb-4">
+      <div>
+        <DialogTitle className="text-2xl font-bold flex items-center gap-2">
+          <TrendingUp className="text-teal-400" size={24} />
+          {selectedStock} Prediction
+        </DialogTitle>
+        <DialogDescription className="text-base" style={{ color: colors.text.secondary }}>
+          AI-powered price analysis with 7-day forecast
+        </DialogDescription>
+      </div>
+      <DialogClose asChild>
+        <Button variant="ghost" className="text-white hover:bg-slate-700 rounded-full h-8 w-8 p-0">
+          <X size={18} />
+        </Button>
+      </DialogClose>
+    </DialogHeader>
+    
+    {prediction && (
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+        <div className="space-y-4 p-5 rounded-lg" style={{ 
+          background: colors.bgTertiary, 
+          borderColor: colors.border.primary,
+          borderWidth: '1px',
+          borderStyle: 'solid',
+          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+        }}>
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-semibold">Prediction Summary</h3>
+            <Badge style={{ background: colors.primary }}>High Confidence</Badge>
+          </div>
           
-          {prediction && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
-              <div className="space-y-3 p-4 rounded-lg" style={{ 
-                background: colors.bgTertiary, 
-                borderColor: colors.border.primary,
-                borderWidth: '1px',
-                borderStyle: 'solid'
-              }}>
-                <p className="text-lg"><strong>Predicted Price:</strong> ₹{prediction["Predicted Price"].toFixed(2)}</p>
-                <p className="text-lg"><strong>Recommended Sell Price:</strong> ₹{prediction["Recommended Sell Price"].toFixed(2)}</p>
-                <p className="text-lg"><strong>Predicted Profit:</strong> ₹{(prediction["Recommended Sell Price"] - prediction["Predicted Price"]).toFixed(2)}</p>
-                <p className="text-lg" style={{ color: colors.positive }}><strong>Total Stocks Remaining:</strong> {prediction["Total Stocks Remaining"]}</p>
-                <div className="pt-2 mt-2 border-t" style={{ borderColor: colors.border.primary }}>
-                  <p className="text-sm" style={{ color: colors.text.secondary }}>AI Confidence: <span style={{ color: colors.neutral }}>High</span></p>
-                  <p className="text-sm" style={{ color: colors.text.secondary }}>Prediction Horizon: 7 days</p>
+          <div className="grid grid-cols-2 gap-y-3">
+          
+            <div>
+              <p className="text-sm" style={{ color: colors.text.secondary }}>Predicted Price</p>
+              <p className="text-xl font-bold" style={{ color: colors.neutral }}>₹{prediction["Predicted Price"].toFixed(2)}</p>
+            </div>
+            <div>
+              <p className="text-sm" style={{ color: colors.text.secondary }}>Recommended Sell</p>
+              <p className="text-xl font-bold" style={{ color: colors.positive }}>₹{prediction["Recommended Sell Price"].toFixed(2)}</p>
+            </div>
+            <div>
+              <p className="text-sm" style={{ color: colors.text.secondary }}>Potential Profit</p>
+              <p className="text-xl font-bold" style={{ color: colors.positive }}>
+                ₹{(prediction["Recommended Sell Price"] - prediction["Predicted Price"]).toFixed(2)}
+                <span className="text-sm ml-1">
+                  ({(((prediction["Recommended Sell Price"] - prediction["Predicted Price"]) / prediction["Predicted Price"]) * 100).toFixed(1)}%)
+                </span>
+              </p>
+            </div>
+          </div>
+          
+        
+        </div>
+        
+        <div className="grid grid-rows-2 gap-4 w-full">
+          <div className="rounded-lg p-4" style={{ 
+            background: colors.bgTertiary, 
+            borderColor: colors.border.primary,
+            borderWidth: '1px',
+            borderStyle: 'solid',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+          }}>
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-lg font-semibold">Price Trend</h3>
+              <div className="flex items-center text-xs gap-3">
+                <div className="flex items-center">
+                  <div className="w-3 h-3 rounded-full mr-1" style={{ background: colors.positive }}></div>
+                  <span style={{ color: colors.text.secondary }}>Historical</span>
                 </div>
-              </div>
-              <div className="grid grid-rows-2 gap-4 w-full">
-                <div className="rounded-lg p-4" style={{ 
-                  background: colors.bgTertiary, 
-                  borderColor: colors.border.primary,
-                  borderWidth: '1px',
-                  borderStyle: 'solid'
-                }}>
-                  <h3 className="text-lg font-semibold">Price Trend</h3>
-                  <ResponsiveContainer width="100%" height={150}>
-                    <LineChart data={chartData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke={colors.border.primary} />
-                      <XAxis dataKey="name" stroke={colors.text.secondary} />
-                      <YAxis stroke={colors.text.secondary} />
-                      <Tooltip contentStyle={{ backgroundColor: colors.bgSecondary, borderColor: colors.border.primary }} />
-                      <Line type="monotone" dataKey="value" stroke={colors.positive} strokeWidth={3} />
-                      <Line type="monotone" dataKey="Predicted Price" stroke={colors.neutral} strokeWidth={3} />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </div>
-                <div className="rounded-lg p-4" style={{ 
-                  background: colors.bgTertiary, 
-                  borderColor: colors.border.primary,
-                  borderWidth: '1px',
-                  borderStyle: 'solid'
-                }}>
-                  <h3 className="text-lg font-semibold">Comparison</h3>
-                  <ResponsiveContainer width="100%" height={150}>
-                    <BarChart data={chartData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke={colors.border.primary} />
-                      <XAxis dataKey="name" stroke={colors.text.secondary} />
-                      <YAxis stroke={colors.text.secondary} />
-                      <Tooltip contentStyle={{ backgroundColor: colors.bgSecondary, borderColor: colors.border.primary }} />
-                      <Bar dataKey="value" fill={colors.text.accent} />
-                    </BarChart>
-                  </ResponsiveContainer>
+                <div className="flex items-center">
+                  <div className="w-3 h-3 rounded-full mr-1" style={{ background: colors.neutral }}></div>
+                  <span style={{ color: colors.text.secondary }}>Predicted</span>
                 </div>
               </div>
             </div>
-          )}
-        </DialogContent>
-      </Dialog>
+            <ResponsiveContainer width="100%" height={150}>
+              <AreaChart data={chartData}>
+                <defs>
+                  <linearGradient id="colorHistorical" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor={colors.positive} stopOpacity={0.3}/>
+                    <stop offset="95%" stopColor={colors.positive} stopOpacity={0}/>
+                  </linearGradient>
+                  <linearGradient id="colorPredicted" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor={colors.neutral} stopOpacity={0.3}/>
+                    <stop offset="95%" stopColor={colors.neutral} stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke={colors.border.primary} />
+                <XAxis dataKey="name" stroke={colors.text.secondary} tick={{ fontSize: 10 }} />
+                <YAxis stroke={colors.text.secondary} tick={{ fontSize: 10 }} />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: colors.bgSecondary, 
+                    borderColor: colors.border.primary,
+                    borderRadius: '4px',
+                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+                  }} 
+                  labelStyle={{ fontWeight: 'bold' }}
+                />
+                <ReferenceLine 
+                  y={prediction["Recommended Sell Price"]} 
+                  label={{ value: 'Sell Target', position: 'insideTopRight', fill: colors.positive, fontSize: 10 }}
+                  stroke={colors.positive} 
+                  strokeDasharray="3 3" 
+                />
+                <Area 
+                  type="monotone" 
+                  dataKey="value" 
+                  stroke={colors.positive} 
+                  fillOpacity={1}
+                  fill="url(#colorHistorical)"
+                  strokeWidth={2}
+                  dot={{ fill: colors.positive, r: 3 }}
+                  activeDot={{ r: 5, stroke: colors.bgSecondary, strokeWidth: 1 }}
+                />
+                <Area 
+                  type="monotone" 
+                  dataKey="Predicted Price" 
+                  stroke={colors.neutral} 
+                  fillOpacity={1}
+                  fill="url(#colorPredicted)"
+                  strokeWidth={2}
+                  strokeDasharray="5 5"
+                  dot={{ fill: colors.neutral, r: 3 }}
+                  activeDot={{ r: 5, stroke: colors.bgSecondary, strokeWidth: 1 }}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+          
+          <div className="rounded-lg p-4" style={{ 
+            background: colors.bgTertiary, 
+            borderColor: colors.border.primary,
+            borderWidth: '1px',
+            borderStyle: 'solid',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+          }}>
+            <h3 className="text-lg font-semibold mb-2">Market Comparison</h3>
+            <ResponsiveContainer width="100%" height={150}>
+              <ComposedChart data={chartData}>
+                <CartesianGrid strokeDasharray="3 3" stroke={colors.border.primary} />
+                <XAxis dataKey="name" stroke={colors.text.secondary} tick={{ fontSize: 10 }} />
+                <YAxis yAxisId="left" orientation="left" stroke={colors.text.secondary} tick={{ fontSize: 10 }} />
+                <YAxis yAxisId="right" orientation="right" stroke={colors.text.accent} tick={{ fontSize: 10 }} />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: colors.bgSecondary, 
+                    borderColor: colors.border.primary,
+                    borderRadius: '4px', 
+                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+                  }}
+                  labelStyle={{ fontWeight: 'bold' }}
+                />
+                <Legend 
+                  verticalAlign="top" 
+                  height={36}
+                  wrapperStyle={{ fontSize: 10, color: colors.text.secondary }}
+                />
+                <Bar 
+                  yAxisId="left" 
+                  dataKey="volume" 
+                  name="Volume" 
+                  fill={colors.text.accent} 
+                  fillOpacity={0.6}
+                  radius={[2, 2, 0, 0]}
+                />
+                <Line 
+                  yAxisId="right" 
+                  type="monotone" 
+                  dataKey="value" 
+                  name={selectedStock}
+                  stroke={colors.positive} 
+                  strokeWidth={2}
+                  dot={{ fill: colors.positive, r: 3 }}
+                />
+                <Line 
+                  yAxisId="right" 
+                  type="monotone" 
+                  dataKey="marketAvg" 
+                  name="Market Avg" 
+                  stroke={colors.text.secondary} 
+                  strokeWidth={2}
+                  strokeDasharray="3 3"
+                  dot={{ fill: colors.text.secondary, r: 3 }}
+                />
+              </ComposedChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      </div>
+    )}
+    
+    <div className="mt-4 text-xs text-center" style={{ color: colors.text.secondary }}>
+      Analysis updated {new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })} • 
+      Data sources: NSE, BSE & proprietary AI models
+    </div>
+  </DialogContent>
+</Dialog>
 
       {error && <p className="text-red-500 max-w-6xl mx-auto px-6">{error}</p>}
     </div>
