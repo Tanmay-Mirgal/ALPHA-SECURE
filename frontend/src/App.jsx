@@ -12,6 +12,7 @@ import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import Blog from "./pages/Blog/Blog";
 import ROICalculator from "./pages/RoiCalculator/RoiCalculator";
 import Lecture from "./pages/Lecture/Lecture";
+import { useAuthStore } from "./store/useAuthStore";
 
 // Lazy Load Pages
 const Home = lazy(() => import("./pages/Home/Home"));
@@ -25,6 +26,7 @@ const Profile = lazy(() => import("./pages/Profile/Profile"));
 const EKYCForm = lazy(() => import("./pages/Profile/EKYC_form"));
 
 function App() {
+  const {user} = useAuthStore();
   return (
     <>
       {/* Header */}
@@ -114,7 +116,7 @@ function App() {
       </Suspense>
 
       {/* Footer */}
-      <Footer />
+     {user &&  <Footer />}
     </>
   );
 }

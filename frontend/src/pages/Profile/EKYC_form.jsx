@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useRef, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
@@ -112,10 +113,11 @@ const EKYCForm = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-xl">
+    <div className='bg-gray-900 flex justify-center items-center p-20'>
+    <div className="max-w-2xl mx-auto bg-gray-800 p-8 rounded-xl shadow-xl">
       <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">eKYC Verification</h1>
-        <p className="mt-2 text-gray-600">Complete your identity verification process</p>
+        <h1 className="text-3xl font-bold text-gray-100">eKYC Verification</h1>
+        <p className="mt-2 text-gray-100">Complete your identity verification process</p>
       </div>
 
       {submitStatus && (
@@ -128,10 +130,10 @@ const EKYCForm = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Face Verification */}
         <div className="border-t border-gray-200 pt-6">
-          <h2 className="text-lg font-medium text-gray-900 mb-4">Face Verification</h2>
+          <h2 className="text-lg font-medium text-gray-100 mb-4">Face Verification</h2>
           <div className="space-y-4">
             <div className="relative">
-              {!capturedImage && <video ref={videoRef} autoPlay className="w-full h-[300px] rounded-lg bg-gray-100 object-cover" />}
+              {!capturedImage && <video ref={videoRef} autoPlay className="w-full h-[300px] rounded-lg bg-gray-900 object-cover" />}
               {capturedImage && <img src={capturedImage} alt="Captured" className="w-full h-[300px] rounded-lg object-cover" />}
               <canvas ref={canvasRef} className="hidden" />
             </div>
@@ -150,6 +152,7 @@ const EKYCForm = () => {
           {isSubmitting ? 'Submitting...' : 'Submit Documents'}
         </button>
       </form>
+    </div>
     </div>
   );
 };

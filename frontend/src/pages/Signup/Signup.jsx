@@ -162,11 +162,16 @@ const navigate = useNavigate()
 
       {/* Right Side - Welcome Section */}
       <div className="hidden lg:flex flex-col justify-center items-center w-1/2 bg-gray-900/80 p-12 relative overflow-hidden">
+      <div className="grid grid-cols-3 gap-4 mb-16">
+          {[...Array(9)].map((_, i) => (
+            <div key={i} className="w-24 h-24 rounded-lg bg-gray-800/70"></div>
+          ))}
+        </div>
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl"></div>
         <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl"></div>
 
         <div className="text-center relative z-10">
-          <h2 className="text-2xl font-bold text-white mb-4">Join ASTRA Today</h2>
+          <h2 className="text-2xl font-bold text-white mb-4">Join Bachat Today</h2>
           <p className="text-gray-400 max-w-md leading-relaxed">
             Sign up and explore a seamless user experience in our beautifully designed interface.
           </p>
