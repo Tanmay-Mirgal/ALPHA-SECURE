@@ -236,6 +236,7 @@ const StockPredictor = () => {
               }}>
                 <p className="text-lg"><strong>Predicted Price:</strong> ₹{prediction["Predicted Price"].toFixed(2)}</p>
                 <p className="text-lg"><strong>Recommended Sell Price:</strong> ₹{prediction["Recommended Sell Price"].toFixed(2)}</p>
+                <p className="text-lg"><strong>Predicted Profit:</strong> ₹{(prediction["Recommended Sell Price"] - prediction["Predicted Price"]).toFixed(2)}</p>
                 <p className="text-lg" style={{ color: colors.positive }}><strong>Total Stocks Remaining:</strong> {prediction["Total Stocks Remaining"]}</p>
                 <div className="pt-2 mt-2 border-t" style={{ borderColor: colors.border.primary }}>
                   <p className="text-sm" style={{ color: colors.text.secondary }}>AI Confidence: <span style={{ color: colors.neutral }}>High</span></p>
@@ -257,6 +258,7 @@ const StockPredictor = () => {
                       <YAxis stroke={colors.text.secondary} />
                       <Tooltip contentStyle={{ backgroundColor: colors.bgSecondary, borderColor: colors.border.primary }} />
                       <Line type="monotone" dataKey="value" stroke={colors.positive} strokeWidth={3} />
+                      <Line type="monotone" dataKey="Predicted Price" stroke={colors.neutral} strokeWidth={3} />
                     </LineChart>
                   </ResponsiveContainer>
                 </div>

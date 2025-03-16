@@ -233,32 +233,7 @@ const InsurancePage = () => {
   return (
     <div className="flex flex-col gap-4 p-4 bg-gradient-to-b from-slate-950 to-slate-900 text-slate-50 min-h-screen">
       {/* Portfolio Summary */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-        <Card className="bg-slate-800/50 border-slate-700">
-          <CardContent className="p-4">
-            <p className="text-slate-400 text-sm">Monthly Premiums</p>
-            <p className="text-2xl font-bold text-white">{formatCurrency(portfolioSummary.totalPremiums)}</p>
-          </CardContent>
-        </Card>
-        <Card className="bg-slate-800/50 border-slate-700">
-          <CardContent className="p-4">
-            <p className="text-slate-400 text-sm">Total Coverage</p>
-            <p className="text-2xl font-bold text-white">{formatCurrency(portfolioSummary.totalCoverage)}</p>
-          </CardContent>
-        </Card>
-        <Card className="bg-slate-800/50 border-slate-700">
-          <CardContent className="p-4">
-            <p className="text-slate-400 text-sm">Active Policies</p>
-            <p className="text-2xl text-white font-bold">{portfolioSummary.activePolicies}</p>
-          </CardContent>
-        </Card>
-        <Card className="bg-slate-800/50 border-slate-700">
-          <CardContent className="p-4">
-            <p className="text-slate-400 text-sm">Total Claims</p>
-            <p className="text-2xl text-white font-bold">{portfolioSummary.totalClaims}</p>
-          </CardContent>
-        </Card>
-      </div>
+      
 
       {/* Search and Filters */}
       <div className="flex flex-col md:flex-row gap-4 mb-4">
@@ -353,19 +328,19 @@ const InsurancePage = () => {
               <div className="space-y-1 mt-2 border-t border-slate-700 pt-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-slate-400">Coverage:</span>
-                  <span className="font-medium">{policy.coverage}</span>
+                  <span className="font-medium text-white">{policy.coverage}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-400">Deductible:</span>
-                  <span className="font-medium">{policy.deductible}</span>
+                  <span className="font-medium text-white">{policy.deductible}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-400">Provider:</span>
-                  <span className="font-medium">{policy.provider}</span>
+                  <span className="font-medium text-white">{policy.provider}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-400">Claims:</span>
-                  <span className="font-medium">{policy.claims}</span>
+                  <span className="font-medium text-white">{policy.claims}</span>
                 </div>
               </div>
             </CardContent>

@@ -135,28 +135,7 @@ const StockTradingCards = () => {
   return (
     <div className="flex flex-col gap-4 p-4 bg-gradient-to-b from-slate-950 to-slate-900 text-slate-50 min-h-screen">
       {/* Portfolio Summary */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-        <Card className="bg-slate-800/50 border-slate-700">
-          <CardContent className="p-4">
-            <p className="text-slate-400 text-sm">Portfolio Value</p>
-            <p className="text-2xl font-bold text-white">${portfolioSummary.totalValue.toFixed(2)}</p>
-          </CardContent>
-        </Card>
-        <Card className="bg-slate-800/50 border-slate-700">
-          <CardContent className="p-4">
-            <p className="text-slate-400 text-sm">Total Profit/Loss</p>
-            <p className={`text-2xl font-bold ${portfolioSummary.totalProfit >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-              ${portfolioSummary.totalProfit.toFixed(2)}
-            </p>
-          </CardContent>
-        </Card>
-        <Card className="bg-slate-800/50 border-slate-700">
-          <CardContent className="p-4">
-            <p className="text-slate-400 text-sm">Stocks Owned</p>
-            <p className="text-2xl text-white font-bold">{portfolioSummary.totalStocks}</p>
-          </CardContent>
-        </Card>
-      </div>
+      
 
       {/* Search and Filters */}
       <div className="flex flex-col md:flex-row gap-4 mb-4">
