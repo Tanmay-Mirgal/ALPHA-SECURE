@@ -120,5 +120,5 @@ def submit_docs():
         document.save(os.path.join(app.config['UPLOAD_FOLDER'], doc_filename))
 
     return jsonify({'success': True, 'message': 'Documents submitted successfully'})
-if __name__ == "__main__":
-    app.run(debug=True)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000, debug=True)

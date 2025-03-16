@@ -1,0 +1,10 @@
+pandas
+numpy
+joblib
+flask
+flask_cors
+os
+cv2
+werkzeug.util
+scikit-learn
+gunicorn
