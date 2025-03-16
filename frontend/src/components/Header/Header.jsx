@@ -59,7 +59,7 @@ function Header() {
         </nav>
 
         {/* Right Side: User Authentication & Language Selector */}
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden md:flex flex-row-reverse items-center gap-4">
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -80,6 +80,12 @@ function Header() {
                   <DropdownMenuItem className="cursor-pointer hover:bg-gray-800 hover:text-white">
                     <User className="mr-2 h-4 w-4" />
                     <span>Dashboard</span>
+                  </DropdownMenuItem>
+                </Link>
+                <Link to="/profile">
+                  <DropdownMenuItem className="cursor-pointer hover:bg-gray-800 hover:text-white">
+                    <User className="mr-2 h-4 w-4" />
+                    <span>Profile</span>
                   </DropdownMenuItem>
                 </Link>
                 <DropdownMenuSeparator className="bg-gray-800" />
