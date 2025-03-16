@@ -26,7 +26,7 @@ function Header() {
     { name: "STOCKS", href: "/stock", icon: <BarChart2 className="h-4 w-4 mr-2" /> },
     { name: "INSURANCE", href: "/insurance", icon: <Shield className="h-4 w-4 mr-2" /> },
     { name: "PREDICT STOCKS", href: "/predict", icon: <LineChart className="h-4 w-4 mr-2" /> },
-    { name : "ROI Calculator", href: "/roi", icon: <Calculator className="h-4 w-4 mr-2" /> }
+    { name : "ROI Calculator", href: "/roi", icon: <Calculator className="h-4 w-4 mr-2" /> },
     { name : "E-Learning", href: "/e-learn", icon: <Book className="h-4 w-4 mr-2" /> }
   ];
 
@@ -35,9 +35,7 @@ function Header() {
       <div className="container mx-auto px-6 flex items-center justify-between h-16">
         {/* Logo */}
         <Link to="/" className="flex items-center">
-          <div className="h-[100px] w-[100px] rounded-full flex items-center justify-center mr-2">
-           <img src="logo.png" alt="" />
-          </div>
+          
           
             <img src="/logo-removebg-preview.png" alt="" className="w-[14vh] h-[14vh]"/>
           
