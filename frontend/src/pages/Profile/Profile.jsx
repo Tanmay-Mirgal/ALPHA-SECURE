@@ -1,6 +1,10 @@
-import React, { useState } from 'react';
+import { useAuthStore } from '@/store/useAuthStore';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const UserProfile = () => {
+  const { isVerified } = useAuthStore();
+  
   // This would typically come from your API/backend
   const [user, setUser] = useState({
     email: "jane.smith@example.com",
@@ -15,9 +19,8 @@ const UserProfile = () => {
       zipCode: "94105",
       country: "United States"
     },
-    profilePicture: "/api/placeholder/200/200",
-    role: "premium",
-    kycStatus: "verified",
+    profilePicture: "/default.jpg",
+    kycStatus: "Unverified", // This will be updated dynamically
     notificationPreferences: {
       email: true,
       push: true,
@@ -29,6 +32,14 @@ const UserProfile = () => {
   });
 
   const [activeTab, setActiveTab] = useState('profile');
+
+  // Update KYC status when isVerified changes
+  useEffect(() => {
+    setUser(prevUser => ({
+      ...prevUser,
+      kycStatus: isVerified ? "verified" : "not_submitted"
+    }));
+  }, [isVerified]);
 
   const formatDate = (date) => {
     return new Date(date).toLocaleDateString('en-US', {
@@ -90,9 +101,6 @@ const UserProfile = () => {
                   alt="Profile" 
                   className="h-24 w-24 rounded-full border-4 border-gray-700"
                 />
-                <div className="absolute bottom-0 right-0 bg-gray-800 p-1 rounded-full">
-                  {getRoleBadge(user.role)}
-                </div>
               </div>
               <div className="mt-4 sm:mt-0 sm:ml-6 text-center sm:text-left">
                 <h1 className="text-2xl font-bold text-white">
@@ -198,10 +206,17 @@ const UserProfile = () => {
                   <div className="mt-4">
                     <div className="flex items-center">
                       {getKycStatusBadge(user.kycStatus)}
-                      {user.kycStatus === 'not_submitted' && (
-                        <button className="ml-4 px-3 py-1.5 bg-purple-700 text-white text-xs font-medium rounded hover:bg-purple-600">
-                          Submit Documents
-                        </button>
+                      {!isVerified && (
+                        <Link to="/e-kyc">
+                          <button className="ml-4 px-3 py-1.5 bg-purple-700 text-white text-xs font-medium rounded hover:bg-purple-600">
+                            Verify KYC
+                          </button>
+                        </Link>
+                      )}
+                      {isVerified && (
+                        <span className="ml-4 text-sm text-green-400">
+                          Your identity has been verified successfully
+                        </span>
                       )}
                     </div>
                   </div>
@@ -239,7 +254,6 @@ const UserProfile = () => {
                       <p className="text-sm text-gray-400">Receive alerts on your device</p>
                     </label>
                   </div>
-                  
                 </div>
                 <div className="mt-8">
                   <button className="px-4 py-2 bg-purple-700 text-white text-sm font-medium rounded hover:bg-purple-600 focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-purple-500">
@@ -257,7 +271,7 @@ const UserProfile = () => {
                     <div>
                       <dt className="text-sm font-medium text-gray-400">Account role</dt>
                       <dd className="mt-1 text-sm text-gray-200 flex items-center">
-                        {getRoleBadge(user.role)}
+                        {getRoleBadge(user.role || 'user')}
                         {user.role !== 'premium' && (
                           <button className="ml-4 px-3 py-1 bg-purple-700 text-white text-xs font-medium rounded hover:bg-purple-600">
                             Upgrade

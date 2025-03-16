@@ -38,30 +38,14 @@ export const submitKYC = async (req, res) => {
   };
 //change
 export const verifyKYC = async (req, res) => {
-  try {
-    const { kycId } = req.params;
-    const { status, rejectionReason } = req.body;
-
-    if (!["verified", "rejected"].includes(status)) {
-      return res.status(400).json({ message: "Invalid status value" });
-    }
-
-    const kycDocument = await KYC.findById(kycId);
-    if (!kycDocument) {
-      return res.status(404).json({ message: "KYC document not found" });
-    }
-
-    kycDocument.verificationStatus = status;
-    kycDocument.verifiedAt = status === "verified" ? new Date() : null;
-    kycDocument.rejectionReason = status === "rejected" ? rejectionReason : null;
-    await kycDocument.save();
-
-    await User.findByIdAndUpdate(kycDocument.userId, { kycStatus: status });
-
-    res.status(200).json({ message: `KYC ${status} successfully`, kycDocument });
-  } catch (error) {
-    res.status(500).json({ message: "Error updating KYC status", error: error.message });
-  }
+try {
+  const userId = req.user._id;
+  const isVerifiedUser = await User.findByIdAndUpdate({ _id: userId }, { kycStatus: "verified" },{new:true});
+  res.json({ message: "User verified successfully", user: isVerifiedUser });
+} catch (error) {
+  console.error(error);
+  return res.status(500).json({ message: "Error verifying KYC", error: error.message });
+}
 };
 
 

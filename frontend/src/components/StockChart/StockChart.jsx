@@ -1,7 +1,8 @@
 import React, { useState, useMemo } from "react";
 import {
-  LineChart,
+  ComposedChart,
   Line,
+  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -20,6 +21,11 @@ const StockChart = ({ data, color = "#6366f1" }) => {
       ...item,
       formattedDate: format(new Date(item.date), "MMM dd, yyyy"),
       percentChange: ((item.adj_close - item.adj_open) / item.adj_open) * 100,
+      // For the bar chart representing open to close range
+      barStart: Math.min(item.adj_open, item.adj_close),
+      barEnd: Math.max(item.adj_open, item.adj_close),
+      // Color determination for up/down days
+      isPositive: item.adj_close >= item.adj_open,
     }));
   }, [data]);
 
@@ -55,26 +61,28 @@ const StockChart = ({ data, color = "#6366f1" }) => {
     return null;
   };
 
+  const CustomBar = (props) => {
+    const { x, y, width, height, payload } = props;
+    
+    // Use green for positive days, red for negative days
+    const fill = payload.isPositive ? "#10b981" : "#ef4444";
+    
+    return <rect x={x} y={y} width={width} height={height} fill={fill} />;
+  };
+
   return (
     <div className="w-full h-[500px] p-6 bg-slate-900 rounded-xl shadow-lg">
-      <ResponsiveContainer>
-        <LineChart
+      <ResponsiveContainer width="100%" height="100%">
+        <ComposedChart
           data={processedData}
           margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
           onMouseMove={(e) => {
-            if (e.activePayload) {
+            if (e && e.activePayload) {
               setHoveredData(e.activePayload[0].payload);
             }
           }}
           onMouseLeave={() => setHoveredData(null)}
         >
-          <defs>
-            <linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor={color} stopOpacity={0.2} />
-              <stop offset="95%" stopColor={color} stopOpacity={0} />
-            </linearGradient>
-          </defs>
-
           <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" vertical={false} />
 
           <XAxis
@@ -95,54 +103,54 @@ const StockChart = ({ data, color = "#6366f1" }) => {
           />
 
           <Tooltip content={<CustomTooltip />} />
-
-          <ReferenceLine
-            y={hoveredData?.adj_open}
-            stroke="rgba(255,255,255,0.2)"
-            strokeDasharray="3 3"
+          
+          <Legend 
+            payload={[
+              { value: 'Price Range', type: 'rect', color: '#6366f1' },
+              { value: 'High/Low', type: 'line', color: '#94a3b8' }
+            ]}
           />
 
-          <Line
-            type="monotone"
-            dataKey="adj_close"
-            stroke={color}
-            strokeWidth={2}
-            dot={false}
-            activeDot={{
-              r: 6,
-              stroke: "#fff",
-              strokeWidth: 2,
-              fill: color,
-            }}
-            isAnimationActive={true}
-            animationDuration={1500}
-            animationEasing="ease-in-out"
+          {/* Bar from open to close */}
+          <Bar
+            dataKey="barEnd"
+            fill="transparent"
+            stroke="none"
+            barSize={12}
+            shape={<CustomBar />}
+            baseValue="barStart"
           />
 
+          {/* Line for high-low range */}
           <Line
             type="monotone"
             dataKey="adj_high"
-            stroke={`${color}44`}
-            strokeWidth={1}
+            stroke="#94a3b8"
             dot={false}
-            activeDot={false}
           />
-
+          
           <Line
             type="monotone"
-            dataKey="adj_low"
-            stroke={`${color}44`}
-            strokeWidth={1}
+            dataKey="adj_low" 
+            stroke="#94a3b8"
             dot={false}
-            activeDot={false}
           />
-        </LineChart>
+
+          {/* Reference line for hovered value */}
+          {hoveredData && (
+            <ReferenceLine
+              y={hoveredData.adj_close}
+              stroke="rgba(255,255,255,0.4)"
+              strokeDasharray="3 3"
+            />
+          )}
+        </ComposedChart>
       </ResponsiveContainer>
 
       {hoveredData && (
         <div className="mt-4 text-center">
           <p className="text-white text-lg font-medium">
-            {hoveredData.symbol} - {hoveredData.formattedDate}
+            {hoveredData.symbol || "Stock"} - {hoveredData.formattedDate}
           </p>
           <p
             className={`text-lg font-bold ${
@@ -155,6 +163,12 @@ const StockChart = ({ data, color = "#6366f1" }) => {
               {hoveredData.percentChange.toFixed(2)}%)
             </span>
           </p>
+          <div className="flex justify-center gap-6 mt-2 text-white">
+            <p>Open: ${hoveredData.adj_open.toFixed(2)}</p>
+            <p>High: ${hoveredData.adj_high.toFixed(2)}</p>
+            <p>Low: ${hoveredData.adj_low.toFixed(2)}</p>
+            <p>Close: ${hoveredData.adj_close.toFixed(2)}</p>
+          </div>
         </div>
       )}
     </div>
