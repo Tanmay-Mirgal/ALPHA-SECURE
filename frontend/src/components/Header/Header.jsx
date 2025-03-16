@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { Menu, LogOut, User, BarChart2, Shield, LineChart, Calculator } from "lucide-react";
+import { Menu, LogOut, User, BarChart2, Shield, LineChart, Calculator, Book } from "lucide-react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { Button } from "../../components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar";
@@ -27,6 +27,7 @@ function Header() {
     { name: "INSURANCE", href: "/insurance", icon: <Shield className="h-4 w-4 mr-2" /> },
     { name: "PREDICT STOCKS", href: "/predict", icon: <LineChart className="h-4 w-4 mr-2" /> },
     { name : "ROI Calculator", href: "/roi", icon: <Calculator className="h-4 w-4 mr-2" /> }
+    { name : "E-Learning", href: "/e-learn", icon: <Book className="h-4 w-4 mr-2" /> }
   ];
 
   return (
@@ -34,6 +35,9 @@ function Header() {
       <div className="container mx-auto px-6 flex items-center justify-between h-16">
         {/* Logo */}
         <Link to="/" className="flex items-center">
+          <div className="h-[100px] w-[100px] rounded-full flex items-center justify-center mr-2">
+           <img src="logo.png" alt="" />
+          </div>
           
             <img src="/logo-removebg-preview.png" alt="" className="w-[14vh] h-[14vh]"/>
           
