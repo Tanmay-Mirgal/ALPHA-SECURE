@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { Menu, LogOut, User, BarChart2, Shield, LineChart } from "lucide-react";
+import { Menu, LogOut, User, BarChart2, Shield, LineChart, Calculator } from "lucide-react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { Button } from "../../components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar";
@@ -26,6 +26,7 @@ function Header() {
     { name: "STOCKS", href: "/stock", icon: <BarChart2 className="h-4 w-4 mr-2" /> },
     { name: "INSURANCE", href: "/insurance", icon: <Shield className="h-4 w-4 mr-2" /> },
     { name: "PREDICT STOCKS", href: "/predict", icon: <LineChart className="h-4 w-4 mr-2" /> },
+    { name : "ROI Calculator", href: "/roi", icon: <Calculator className="h-4 w-4 mr-2" /> }
   ];
 
   return (
