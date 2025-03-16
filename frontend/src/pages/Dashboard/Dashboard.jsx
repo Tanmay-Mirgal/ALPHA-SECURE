@@ -63,7 +63,7 @@ const Dashboard = () => {
     const itemsPerPage = 5;
 
     // Expanded transaction data
-    const transactionData = [
+   const transactionData = [
         { id: 1, stock: "AAPL", action: "bought", quantity: 5, price: "₹18,500", date: "2025-03-15", time: "10:30 AM" },
         { id: 2, stock: "MSFT", action: "sold", quantity: 3, price: "₹9,200", date: "2025-03-14", time: "2:15 PM" },
         { id: 3, stock: "GOOGL", action: "bought", quantity: 2, price: "₹26,400", date: "2025-03-13", time: "11:45 AM" },
@@ -352,4 +352,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+export default Dashboard

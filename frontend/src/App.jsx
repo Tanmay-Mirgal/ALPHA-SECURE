@@ -14,6 +14,7 @@ import ROICalculator from "./pages/RoiCalculator/RoiCalculator";
 import Lecture from "./pages/Lecture/Lecture";
 import { useAuthStore } from "./store/useAuthStore";
 
+
 // Lazy Load Pages
 const Home = lazy(() => import("./pages/Home/Home"));
 const Login = lazy(() => import("./pages/Login/Login"));
@@ -53,6 +54,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+     
           <Route
             path="/insurance"
             element={
