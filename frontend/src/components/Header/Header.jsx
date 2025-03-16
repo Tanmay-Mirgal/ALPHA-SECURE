@@ -38,6 +38,9 @@ function Header() {
           <div className="h-[100px] w-[100px] rounded-full flex items-center justify-center mr-2">
            <img src="logo.png" alt="" />
           </div>
+          
+            <img src="/logo-removebg-preview.png" alt="" className="w-[14vh] h-[14vh]"/>
+          
           <span className="text-lg font-semibold text-white tracking-wide">Bachat</span>
         </Link>
 
@@ -59,7 +62,7 @@ function Header() {
         </nav>
 
         {/* Right Side: User Authentication & Language Selector */}
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden md:flex flex-row-reverse items-center gap-4">
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -80,6 +83,12 @@ function Header() {
                   <DropdownMenuItem className="cursor-pointer hover:bg-gray-800 hover:text-white">
                     <User className="mr-2 h-4 w-4" />
                     <span>Dashboard</span>
+                  </DropdownMenuItem>
+                </Link>
+                <Link to="/profile">
+                  <DropdownMenuItem className="cursor-pointer hover:bg-gray-800 hover:text-white">
+                    <User className="mr-2 h-4 w-4" />
+                    <span>Profile</span>
                   </DropdownMenuItem>
                 </Link>
                 <DropdownMenuSeparator className="bg-gray-800" />

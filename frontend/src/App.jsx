@@ -9,6 +9,7 @@ import { ClipLoader } from "react-spinners";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import Blog from "./pages/Blog/Blog";
 import ROICalculator from "./pages/RoiCalculator/RoiCalculator";
 
 // Lazy Load Pages
@@ -38,6 +39,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/blog" element={<Blog />} />
 
           {/* Protected Routes */}
           <Route
