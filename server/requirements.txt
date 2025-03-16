@@ -3,7 +3,7 @@ numpy
 joblib
 flask
 flask_cors
-cv2
+opencv-python
 werkzeug.util
 scikit-learn
 gunicorn
