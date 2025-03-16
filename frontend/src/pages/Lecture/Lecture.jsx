@@ -1,10 +1,12 @@
+/* eslint-disable no-useless-escape */
 import React, { useState } from 'react';
-import { Search, Clock, PlayCircle, Calendar, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, Clock, PlayCircle, Calendar, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import lectureData from '../../BlogData/Dataset.json';
 
 function Lecture() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedVideo, setSelectedVideo] = useState(null);
   const rowsPerPage = 6;
 
   const getYouTubeVideoId = (url) => {
@@ -42,16 +44,27 @@ function Lecture() {
     currentPage * rowsPerPage
   );
 
-  const handleTopicClick = (topic) => {
-    if (topic.youtubeVideos && topic.youtubeVideos.length > 0) {
-      window.open(topic.youtubeVideos[0].link, '_blank');
-    }
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
+      {selectedVideo && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-50">
+          <div className="relative w-11/12 md:w-3/4 lg:w-1/2">
+            <button className="absolute top-2 right-2 text-white" onClick={() => setSelectedVideo(null)}>
+              <X className="w-8 h-8" />
+            </button>
+            <div className="aspect-video">
+              <iframe 
+                className="w-full h-full rounded-lg"
+                src={`https://www.youtube.com/embed/${getYouTubeVideoId(selectedVideo)}`} 
+                frameBorder="0" 
+                allowFullScreen
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="container mx-auto px-4 py-12">
-        {/* Header */}
         <div className="mb-12 text-center">
           <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-pink-600 text-transparent bg-clip-text">
             React Development Course
@@ -59,7 +72,6 @@ function Lecture() {
           <p className="text-gray-400 text-lg">Master React with comprehensive video tutorials</p>
         </div>
 
-        {/* Search Bar */}
         <div className="max-w-2xl mx-auto mb-12">
           <div className="relative">
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -73,16 +85,14 @@ function Lecture() {
           </div>
         </div>
 
-        {/* Video Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {paginatedTopics.map((topic) => (
             <div
               key={topic.id}
-              onClick={() => handleTopicClick(topic)}
+              onClick={() => setSelectedVideo(topic.youtubeVideos[0].link)}
               className="group cursor-pointer transform hover:scale-105 transition-all duration-300"
             >
               <div className="bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow">
-                {/* Thumbnail */}
                 <div className="relative aspect-video">
                   <img 
                     src={topic.thumbnail} 
@@ -93,13 +103,10 @@ function Lecture() {
                     <PlayCircle className="w-16 h-16 text-white opacity-80" />
                   </div>
                 </div>
-
-                {/* Content */}
                 <div className="p-6">
                   <h3 className="text-lg font-semibold mb-2 line-clamp-2 group-hover:text-purple-400 transition-colors">
                     {topic.name}
                   </h3>
-                  
                   <div className="flex items-center text-sm text-gray-400 mt-4">
                     <Calendar className="w-4 h-4 mr-2" />
                     <span>{topic.date}</span>
@@ -112,7 +119,6 @@ function Lecture() {
           ))}
         </div>
 
-        {/* Pagination */}
         {totalPages > 1 && (
           <div className="flex justify-center mt-12 gap-2">
             <button
@@ -122,7 +128,6 @@ function Lecture() {
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
-            
             {[...Array(totalPages)].map((_, i) => (
               <button
                 key={i}
@@ -136,7 +141,6 @@ function Lecture() {
                 {i + 1}
               </button>
             ))}
-            
             <button
               onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
               disabled={currentPage === totalPages}

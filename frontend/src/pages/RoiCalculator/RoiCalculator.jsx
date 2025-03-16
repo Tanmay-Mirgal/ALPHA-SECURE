@@ -16,7 +16,8 @@ export default function ROICalculator() {
   const isNegative = roi !== "N/A" && parseFloat(roi) < 0;
   
   return (
-    <div className="max-w-md mx-auto bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl shadow-lg mt-10 border border-gray-700">
+   <div className="flex justify-center items-center h-screen bg-gray-900">
+     <div className=" w-[500px] mx-auto bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl shadow-lg mt-10 border border-gray-700">
       <h2 className="text-2xl font-bold text-center mb-6 text-blue-400">ROI Calculator</h2>
       
       <div className="space-y-4">
@@ -90,5 +91,6 @@ export default function ROICalculator() {
         )}
       </div>
     </div>
+   </div>
   );
 }

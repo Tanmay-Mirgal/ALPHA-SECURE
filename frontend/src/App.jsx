@@ -11,6 +11,7 @@ import Footer from "./components/Footer/Footer";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import Blog from "./pages/Blog/Blog";
 import ROICalculator from "./pages/RoiCalculator/RoiCalculator";
+import Lecture from "./pages/Lecture/Lecture";
 
 // Lazy Load Pages
 const Home = lazy(() => import("./pages/Home/Home"));
