@@ -9,6 +9,7 @@ import { ClipLoader } from "react-spinners";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import Blog from "./pages/Blog/Blog";
 
 // Lazy Load Pages
 const Home = lazy(() => import("./pages/Home/Home"));
@@ -37,6 +38,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/blog" element={<Blog />} />
 
           {/* Protected Routes */}
           <Route

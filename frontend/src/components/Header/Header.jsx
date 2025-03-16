@@ -33,11 +33,9 @@ function Header() {
       <div className="container mx-auto px-6 flex items-center justify-between h-16">
         {/* Logo */}
         <Link to="/" className="flex items-center">
-          <div className="h-10 w-10 rounded-full bg-green-500 flex items-center justify-center mr-2">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6 text-white">
-              <path d="M3.375 3C2.339 3 1.5 3.84 1.5 4.875V20.25C1.5 21.285 2.339 22.125 3.375 22.125H20.625C21.661 22.125 22.5 21.285 22.5 20.25V4.875C22.5 3.84 21.661 3 20.625 3H3.375zM9 14.25H6.75v1.5H9v-1.5zm0-3H6.75v1.5H9v-1.5zM9 8.25H6.75v1.5H9v-1.5zm9.75 6H15v1.5h3.75v-1.5zm0-3H15v1.5h3.75v-1.5zm0-3H15v1.5h3.75v-1.5z" />
-            </svg>
-          </div>
+          
+            <img src="/logo-removebg-preview.png" alt="" className="w-[14vh] h-[14vh]"/>
+          
           <span className="text-lg font-semibold text-white tracking-wide">Bachat</span>
         </Link>
 

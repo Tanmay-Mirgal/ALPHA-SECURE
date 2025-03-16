@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ArrowRight, BarChart3, Globe, Shield, TrendingUp, Users } from 'lucide-react';
 
 const LandingPage = () => {
+  const [showVideo, setShowVideo] = useState(false);
+  
   return (
     <>
       {/* Hero Section */}
@@ -17,10 +19,13 @@ const LandingPage = () => {
                 Gain the competitive edge in your investment strategy with our AI-powered market insights and alternative data analysis.
               </p>
               <div className="flex flex-wrap gap-4 pt-4">
-                <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-lg transition-colors flex items-center gap-2">
+                <a href="/stock" className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-lg transition-colors flex items-center gap-2">
                   Get Started <ArrowRight size={18} />
-                </button>
-                <button className="border border-gray-600 hover:border-gray-500 text-white font-medium py-3 px-8 rounded-lg transition-colors">
+                </a>
+                <button 
+                  className="border border-gray-600 hover:border-gray-500 text-white font-medium py-3 px-8 rounded-lg transition-colors"
+                  onClick={() => setShowVideo(true)}
+                >
                   Watch Demo
                 </button>
               </div>
@@ -32,6 +37,26 @@ const LandingPage = () => {
             </div>
           </div>
         </div>
+
+        {showVideo && (
+          <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 ">
+            <div className=" rounded-lg max-w-3xl w-full ">
+              <div className="flex justify-end">
+                <button className="text-white" onClick={() => setShowVideo(false)}>✕</button>
+              </div>
+              <div className="aspect-w-16 aspect-h-9 h-[80vh] md:h-[80vh]">
+                <iframe
+                  src="/demo.mp4"
+                  title="Demo Video"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="w-full h-full"
+                ></iframe>
+              </div>
+            </div>
+          </div>
+        )}
       </section>
 
       {/* Stats Section */}
@@ -69,7 +94,7 @@ const LandingPage = () => {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-gray-800 p-6 rounded-xl hover:bg-gray-750 transition-all">
+            <div className="bg-gray-800 p-6 rounded-xl hover:bg-gray-700 transition-all">
               <div className="bg-blue-500 bg-opacity-10 p-3 rounded-lg inline-block mb-4">
                 <Globe className="text-blue-400 w-6 h-6" />
               </div>
@@ -79,7 +104,7 @@ const LandingPage = () => {
               </p>
             </div>
             
-            <div className="bg-gray-800 p-6 rounded-xl hover:bg-gray-750 transition-all">
+            <div className="bg-gray-800 p-6 rounded-xl hover:bg-gray-700 transition-all">
               <div className="bg-blue-500 bg-opacity-10 p-3 rounded-lg inline-block mb-4">
                 <Users className="text-blue-400 w-6 h-6" />
               </div>
@@ -89,7 +114,7 @@ const LandingPage = () => {
               </p>
             </div>
             
-            <div className="bg-gray-800 p-6 rounded-xl hover:bg-gray-750 transition-all">
+            <div className="bg-gray-800 p-6 rounded-xl hover:bg-gray-700 transition-all">
               <div className="bg-blue-500 bg-opacity-10 p-3 rounded-lg inline-block mb-4">
                 <BarChart3 className="text-blue-400 w-6 h-6" />
               </div>
@@ -103,50 +128,50 @@ const LandingPage = () => {
       </section>
 
       {/* How It Works Section */}
-      <section className="bg-gray-800 text-white py-24">
-        <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold mb-4">How Our Platform Works</h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-              A simple, three-step process to transform your investment strategy
+        <section className="bg-gray-800 text-white py-24">
+          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+          <h2 className="text-3xl font-bold mb-4">How Our Platform Works</h2>
+          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+            A simple, three-step process to transform your investment strategy
+          </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8">
+          <div className="text-center">
+            <div className="bg-blue-500 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-6 text-xl font-bold">1</div>
+            <h3 className="text-xl font-semibold mb-2">Connect Data Sources</h3>
+            <p className="text-gray-400">
+              Integrate our platform with your existing financial data sources and choose from our alternative data suite.
             </p>
           </div>
+          
+          <div className="text-center">
+            <div className="bg-blue-500 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-6 text-xl font-bold">2</div>
+            <h3 className="text-xl font-semibold mb-2">AI-Powered Analysis</h3>
+            <p className="text-gray-400">
+              Our algorithms process millions of data points to identify patterns and investment opportunities.
+            </p>
+          </div>
+          
+          <div className="text-center">
+            <div className="bg-blue-500 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-6 text-xl font-bold">3</div>
+            <h3 className="text-xl font-semibold mb-2">Actionable Insights</h3>
+            <p className="text-gray-400">
+              Receive customized reports and alerts to make informed investment decisions ahead of the market.
+            </p>
+          </div>
+            </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="bg-blue-500 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-6 text-xl font-bold">1</div>
-              <h3 className="text-xl font-semibold mb-2">Connect Data Sources</h3>
-              <p className="text-gray-400">
-                Integrate our platform with your existing financial data sources and choose from our alternative data suite.
-              </p>
-            </div>
-            
-            <div className="text-center">
-              <div className="bg-blue-500 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-6 text-xl font-bold">2</div>
-              <h3 className="text-xl font-semibold mb-2">AI-Powered Analysis</h3>
-              <p className="text-gray-400">
-                Our algorithms process millions of data points to identify patterns and investment opportunities.
-              </p>
-            </div>
-            
-            <div className="text-center">
-              <div className="bg-blue-500 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-6 text-xl font-bold">3</div>
-              <h3 className="text-xl font-semibold mb-2">Actionable Insights</h3>
-              <p className="text-gray-400">
-                Receive customized reports and alerts to make informed investment decisions ahead of the market.
-              </p>
+            <div className="mt-16 text-center">
+          <a href="/predict" className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-lg transition-colors">
+            Start Your Analysis
+          </a>
             </div>
           </div>
+        </section>
 
-          <div className="mt-16 text-center">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-lg transition-colors">
-              Start Your Analysis
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
+        {/* Testimonials Section */}
       <section className="bg-gray-900 text-white py-24">
         <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -159,7 +184,7 @@ const LandingPage = () => {
           <div className="grid md:grid-cols-2 gap-8">
             <div className="bg-gray-800 p-8 rounded-xl border border-gray-700">
               <div className="flex items-center mb-6">
-                <img src="/api/placeholder/80/80" alt="Client" className="w-12 h-12 rounded-full" />
+                <img src="https://creazilla-store.fra1.digitaloceanspaces.com/icons/7912768/avatar-icon-md.png" alt="Client" className="w-12 h-12 rounded-full" />
                 <div className="ml-4">
                   <h4 className="font-semibold text-white">Alex Donovan</h4>
                   <p className="text-gray-400 text-sm">Portfolio Manager, Quantum Funds</p>
@@ -177,7 +202,7 @@ const LandingPage = () => {
 
             <div className="bg-gray-800 p-8 rounded-xl border border-gray-700">
               <div className="flex items-center mb-6">
-                <img src="/api/placeholder/80/80" alt="Client" className="w-12 h-12 rounded-full" />
+                <img src="https://static.vecteezy.com/system/resources/previews/014/194/215/original/avatar-icon-human-a-person-s-badge-social-media-profile-symbol-the-symbol-of-a-person-vector.jpg" alt="Client" className="w-12 h-12 rounded-full" />
                 <div className="ml-4">
                   <h4 className="font-semibold text-white">Sophia Chen</h4>
                   <p className="text-gray-400 text-sm">Chief Investment Officer, Meridian Capital</p>
@@ -210,23 +235,6 @@ const LandingPage = () => {
             <button className="bg-gray-800 hover:bg-gray-700 text-white font-medium py-3 px-8 rounded-lg transition-colors">
               Schedule a Demo
             </button>
-          </div>
-        </div>
-      </section>
-
-      {/* Trust Section */}
-      <section className="bg-gray-900 text-white py-16 border-t border-gray-800">
-        <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
-            <h3 className="text-xl font-semibold">Trusted by Leading Financial Institutions</h3>
-          </div>
-          <div className="flex flex-wrap justify-center gap-12 opacity-70">
-            {/* Replace with actual logos */}
-            <div className="w-32 h-12 bg-gray-800 rounded"></div>
-            <div className="w-32 h-12 bg-gray-800 rounded"></div>
-            <div className="w-32 h-12 bg-gray-800 rounded"></div>
-            <div className="w-32 h-12 bg-gray-800 rounded"></div>
-            <div className="w-32 h-12 bg-gray-800 rounded"></div>
           </div>
         </div>
       </section>
