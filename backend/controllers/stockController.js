@@ -78,3 +78,13 @@ export const removeDuplicateStocks = async (req, res) => {
         res.status(500).json({ message: "Server Error", error: error.message });
     }
 };
+export const getAllStocks = async (req, res) => {
+    try {
+        const stocks = await StockPrice.find();
+        res.status(200).json({stocks});
+    } catch (error) {
+        console.error("Error fetching stock data:", error);
+        res.status(500).json({ message: "Server Error", error: error.message });
+        
+    }
+}
