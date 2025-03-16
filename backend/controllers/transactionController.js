@@ -19,56 +19,48 @@ const generateReceipt = (prefix, userId, symbol) => {
     try {
       const { symbol, quantity } = req.body;
       const userId = req.user._id;
-     //change 
+  
       if (!userId || !symbol || !quantity || quantity <= 0) {
         return res.status(400).json({ message: "Invalid input data" });
       }
-      
+  
       const stock = await StockPrice.findOne({ symbol }).sort({ date: -1 });
       if (!stock) {
         return res.status(404).json({ message: "Stock not found" });
       }
-      
+  
       const amount = stock.open * quantity * 100; // Amount in paise
-      
+  
       const options = {
-        amount: amount,
+        amount,
         currency: "INR",
         receipt: generateReceipt("buy_stock", userId, symbol),
-        notes: {
-          userId,
-          symbol,
-          quantity,
-          type: "buy"
-        }
+        notes: { userId, symbol, quantity, type: "BUY", stockId: stock._id.toString() }
       };
-      
+  
       const order = await razorpay.orders.create(options);
-      
-      // Add stock to user's portfolio
+  
+     
       const user = await User.findById(userId);
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
+  
       const existingStock = user.stocks.find(s => s.symbol === symbol);
       if (existingStock) {
-        existingStock.stock.quantity += quantity;
+        existingStock.quantity += quantity;
       } else {
-        user.stocks.push({   symbol, quantity  });
+        user.stocks.push({ stock: stock._id, symbol, quantity });
       }
       await user.save();
-      
-      res.status(200).json({
-        success: true,
-        order,
-        amount:amount/100,
-        key_id: process.env.RAZORPAY_KEY_ID
-      });
+  
+      res.status(200).json({ success: true, order, amount: amount / 100, key_id: process.env.RAZORPAY_KEY_ID });
     } catch (error) {
       console.error("Error creating buy order:", error);
       res.status(500).json({ message: "An unexpected error occurred" });
     }
   };
+  
   
   // Create Razorpay order for selling stock (to handle any transaction fees)
   export const createSellOrder = async (req, res) => {
@@ -152,9 +144,9 @@ export const verifyPayment = async (req, res) => {
     const order = await razorpay.orders.fetch(razorpay_order_id);
     const { userId, symbol, quantity, type } = order.notes;
     
-    if (type === "buy") {
+    if (type === "BUY") {
       await processBuyStock(userId, symbol, parseInt(quantity), res);
-    } else if (type === "sell") {
+    } else if (type === "SELL") {
       await processSellStock(userId, symbol, parseInt(quantity), res);
     } else {
       res.status(400).json({ message: "Invalid transaction type" });
@@ -168,30 +160,54 @@ export const verifyPayment = async (req, res) => {
 // Process the actual stock purchase after payment verification
 export const processBuyStock = async (userId, symbol, quantity, res) => {
   try {
+    console.log("Processing stock purchase...");
+    console.log("User ID:", userId);
+    console.log("Stock Symbol:", symbol);
+    console.log("Quantity:", quantity);
+
+    // ✅ Step 1: Find User
     const user = await User.findById(userId);
     if (!user) {
+      console.log("User not found");
       return res.status(404).json({ message: "User not found" });
     }
-    
+
+    console.log("User found:", user);
+
+    // ✅ Step 2: Find Stock
     const stock = await StockPrice.findOne({ symbol }).sort({ date: -1 });
     if (!stock) {
+      console.log("Stock not found");
       return res.status(404).json({ message: "Stock not found" });
     }
+
+    console.log("Stock found:", stock);
+
+    // ✅ Step 3: Update User's Stock Holdings
+    let existingStock = user.stocks.find(s => s.symbol === symbol);
     
-    const existingStock = user.stocks.find(s => s.stock.symbol === symbol);
     if (existingStock) {
-      existingStock.stock.quantity += quantity;
+      console.log("Existing stock found. Updating quantity...");
+      existingStock.quantity += quantity; // 🔥 Fix: Update quantity directly
     } else {
-      user.stocks.push({ stock: { symbol, quantity } });
+      console.log("Adding new stock to portfolio...");
+      user.stocks.push({ stock: stock._id, symbol, quantity });
     }
-    
+
+    console.log("Updated user portfolio:", user.stocks);
+
+    // ✅ Step 4: Save User
     await user.save();
-    res.status(200).json({ message: "Stock purchased successfully", user });
+    console.log("User stock purchase successful!");
+
+    return res.status(200).json({ success:true ,message: "Stock purchased successfully", user });
+
   } catch (error) {
-    console.error("Error processing buy stock:", error);
-    res.status(500).json({ message: "Failed to process stock purchase" });
+    console.error("❌ Error processing buy stock:", error);
+    return res.status(500).json({ success:false ,message: "Failed to process stock purchase" });
   }
 };
+
 
 // Process the actual stock sale after payment verification
 export const processSellStock = async (userId, symbol, quantity, res) => {
@@ -201,13 +217,13 @@ export const processSellStock = async (userId, symbol, quantity, res) => {
       return res.status(404).json({ message: "User not found" });
     }
     
-    const stockIndex = user.stocks.findIndex(s => s.stock.symbol === symbol);
-    if (stockIndex === -1 || user.stocks[stockIndex].stock.quantity < quantity) {
+    const stockIndex = user.stocks.findIndex(s => s.symbol === symbol);
+    if (stockIndex === -1 || user.stocks[stockIndex].quantity < quantity) {
       return res.status(400).json({ message: "Insufficient stock to sell" });
     }
     
     user.stocks[stockIndex].stock.quantity -= quantity;
-    if (user.stocks[stockIndex].stock.quantity === 0) {
+    if (user.stocks[stockIndex].quantity === 0) {
       user.stocks.splice(stockIndex, 1);
     }
     

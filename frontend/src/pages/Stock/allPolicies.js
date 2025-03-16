@@ -1,4 +1,4 @@
- let allPolicies = [
+ allPolicies = [
     { 
       name: "Basic Health Plan",
       policyNumber: "HP-2024-001",
