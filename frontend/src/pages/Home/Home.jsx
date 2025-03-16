@@ -1,6 +1,6 @@
 import FAQ from '../../components/FAQ/FAQ';
 import React from 'react';
-
+import Footer from '../../components/Footer/Footer';
 const Home = () => {
   return (
     <>
@@ -23,7 +23,8 @@ const Home = () => {
 
         {/* Right Side - Image */}
         <div className="max-w-lg">
-          <img src="image.png" alt="Stock Data Visualization" className="rounded-lg shadow-lg" />
+          <img src="image2.png" alt="Stock Data Visualization" className="rounded-lg " />
+
         </div>
       </div>
 
@@ -154,7 +155,7 @@ const Home = () => {
       
       <FAQ/>
       
-     
+     <Footer/>
     </>
   );
 };

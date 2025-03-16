@@ -12,6 +12,7 @@ import Prediction from "./pages/prediction/Prediction";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Profile from "./pages/Profile/Profile";
 import Header from "./components/Header/Header";
+import Blog from "./pages/Blog/Blog";
 
 function App() {
   
@@ -47,6 +48,10 @@ function App() {
         <Route
           path="/profile"
           element={<Profile/> }
+        />
+        <Route
+          path="/blog"
+          element={<Blog/> }
         />
         
         {/* <Route path="*" element={<Error />} /> */}
