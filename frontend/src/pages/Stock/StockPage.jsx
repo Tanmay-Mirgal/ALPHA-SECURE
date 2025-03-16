@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { TrendingUp, TrendingDown } from "lucide-react";
@@ -9,6 +10,7 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  Legend,
 } from "recharts";
 import { useStockStore } from "../../store/useStockStore";
 import { axiosInstance } from "@/lib/axios";
@@ -59,6 +61,109 @@ const StockCard = ({ stock, onClick }) => {
   );
 };
 
+const StockGraph = ({ stock }) => {
+  const data = [
+    {
+      time: "Opening",
+      price: stock.adj_open,
+      volume: stock.volume * 0.2,
+    },
+    {
+      time: "Mid-Day",
+      price: (stock.adj_open + stock.adj_close) / 2,
+      volume: stock.volume * 0.5,
+    },
+    {
+      time: "Peak",
+      price: stock.high,
+      volume: stock.volume * 0.8,
+    },
+    {
+      time: "Closing",
+      price: stock.adj_close,
+      volume: stock.volume,
+    },
+  ];
+
+  return (
+    <div className="bg-slate-800 rounded-xl p-4 mb-6">
+      <div className="h-64">
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+            <XAxis 
+              dataKey="time" 
+              stroke="#9CA3AF" 
+              tick={{ fill: "#9CA3AF" }}
+              padding={{ left: 20, right: 20 }}
+            />
+            <YAxis 
+              stroke="#9CA3AF" 
+              tick={{ fill: "#9CA3AF" }}
+              yAxisId="price"
+              domain={['auto', 'auto']}
+              label={{ 
+                value: 'Price ($)', 
+                angle: -90, 
+                position: 'insideLeft',
+                fill: "#9CA3AF"
+              }}
+            />
+            <YAxis 
+              yAxisId="volume"
+              orientation="right"
+              stroke="#9CA3AF"
+              tick={{ fill: "#9CA3AF" }}
+              label={{ 
+                value: 'Volume', 
+                angle: 90, 
+                position: 'insideRight',
+                fill: "#9CA3AF"
+              }}
+            />
+            <Tooltip
+              contentStyle={{ 
+                backgroundColor: "#1F2937", 
+                border: "1px solid #374151",
+                borderRadius: "8px",
+                color: "#fff" 
+              }}
+            />
+            <Legend 
+              verticalAlign="top" 
+              height={36}
+              wrapperStyle={{
+                paddingTop: "10px",
+                color: "#fff"
+              }}
+            />
+            <Line
+              yAxisId="price"
+              type="monotone"
+              dataKey="price"
+              stroke="#22c55e"
+              strokeWidth={2}
+              dot={{ fill: "#22c55e", r: 4 }}
+              activeDot={{ r: 6 }}
+              name="Price"
+            />
+            <Line
+              yAxisId="volume"
+              type="monotone"
+              dataKey="volume"
+              stroke="#3b82f6"
+              strokeWidth={2}
+              dot={{ fill: "#3b82f6", r: 4 }}
+              activeDot={{ r: 6 }}
+              name="Volume"
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  );
+};
+
 const StockDialog = ({ stock, isOpen, onClose, onBuy, onSell }) => {
   const [quantity, setQuantity] = useState(1);
 
@@ -68,20 +173,10 @@ const StockDialog = ({ stock, isOpen, onClose, onBuy, onSell }) => {
     <div className={`fixed inset-0 z-50 ${isOpen ? "flex" : "hidden"} items-center justify-center`}>
       <div className="fixed inset-0 bg-black/50" onClick={onClose} />
       <div className="bg-slate-900 rounded-xl p-8 max-w-2xl w-full mx-4 relative z-10 border border-slate-700">
-        <h2 className="text-2xl font-bold text-white">{stock.symbol}</h2>
-        <p className="text-slate-400">{stock.exchange}</p>
+        <h2 className="text-2xl font-bold text-white mb-2">{stock.symbol}</h2>
+        <p className="text-slate-400 mb-4">{stock.exchange}</p>
 
-        <div className="h-64 my-6">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={[{ date: "9:30", price: stock.adj_open }, { date: "16:00", price: stock.adj_close }]}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-              <XAxis dataKey="date" stroke="#9CA3AF" tick={{ fill: "#9CA3AF" }} />
-              <YAxis stroke="#9CA3AF" tick={{ fill: "#9CA3AF" }} />
-              <Tooltip contentStyle={{ backgroundColor: "#1F2937", color: "#fff" }} />
-              <Line type="monotone" dataKey="price" stroke="#22c55e" strokeWidth={2} dot={false} />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
+        <StockGraph stock={stock} />
 
         <div className="mb-4">
           <label className="text-slate-400">Quantity:</label>
@@ -102,14 +197,14 @@ const StockDialog = ({ stock, isOpen, onClose, onBuy, onSell }) => {
         <div className="flex gap-4">
           <button
             onClick={() => onBuy(stock, quantity)}
-            className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg font-semibold"
+            className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors"
           >
             Buy Stock
           </button>
           {stock.owned > 0 && (
             <button
               onClick={() => onSell(stock, quantity)}
-              className="flex-1 bg-red-600 hover:bg-red-700 text-white py-3 px-6 rounded-lg font-semibold"
+              className="flex-1 bg-red-600 hover:bg-red-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors"
               disabled={quantity > stock.owned}
             >
               Sell Stock
@@ -137,7 +232,6 @@ const App = () => {
 
   const handleBuyStock = async (stock, quantity) => {
     try {
-      // ✅ Step 1: Create order in backend
       const orderResponse = await axiosInstance.post("/transaction/buy-stock", { symbol: stock.symbol, quantity });
   
       if (!orderResponse.data.success) {
@@ -150,15 +244,14 @@ const App = () => {
       loadRazorpay(() => {
         const options = {
           key: key_id,
-          amount: amount * 100, // Convert to paisa
+          amount: amount * 100,
           currency: "INR",
           name: stock.symbol,
           description: `Buying ${quantity} shares`,
-          order_id: order.id, // ✅ Pass order_id here
+          order_id: order.id,
           handler: async function (response) {
             console.log("Payment Response:", response);
   
-            // ✅ Step 3: Verify Payment in backend
             const verifyResponse = await axiosInstance.post("/transaction/verify-payment", {
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_order_id: response.razorpay_order_id,
@@ -185,7 +278,6 @@ const App = () => {
       toast.error("Purchase failed. Try again.");
     }
   };
-  
 
   const handleSellStock = async (stock, quantity) => {
     if (quantity > stock.owned) {
@@ -204,7 +296,6 @@ const App = () => {
 
   return (
     <div className="min-h-screen bg-slate-900 text-white p-8">
-      
       <h1 className="text-4xl font-bold text-center mb-8">Stock Trading Dashboard</h1>
 
       {stocks.length === 0 ? (
@@ -224,6 +315,8 @@ const App = () => {
         onBuy={handleBuyStock} 
         onSell={handleSellStock} 
       />
+      
+
     </div>
   );
 };
