@@ -8,6 +8,7 @@ export const useAuthStore = create((set) => ({
   isError: false,
   userStocks:null,
   error: null,
+  isVerified:JSON.parse(localStorage.getItem("isVerified")) ||  false,
 
   // Signup Function
   signup: async (data) => {
@@ -98,6 +99,26 @@ export const useAuthStore = create((set) => ({
     } catch (error) {
       console.error(error);
       const errorMessage = error?.response?.data?.message || 'Failed to fetch user stocks.';
+      
+      set({ isError: true, error: errorMessage, isLoading: false });
+      
+    }
+  },
+  changeVerification:async () => {
+    try {
+      set({ isLoading: true });
+      
+      const {user , message} = await axiosInstance.post('/auth/verify-user');  
+      
+      set({ isVerified: true, isLoading: false, isError: false });
+      
+      toast.success(message);
+      JSON.stringify(localStorage.setItem("isVerified",true))
+      return user
+    
+    } catch (error) {
+      console.error(error);
+      const errorMessage = error?.response?.data?.message || 'Failed to verify user.';
       
       set({ isError: true, error: errorMessage, isLoading: false });
       
