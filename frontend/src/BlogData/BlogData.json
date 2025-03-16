@@ -1,0 +1,69 @@
+{
+    "articles": [
+      {
+        "id": 1,
+        "title": "Stock Market 101: A Beginner's Guide",
+        "author": "John Doe",
+        "published_date": "2025-03-16",
+        "category": "Stock Market",
+        "summary": "Learn the basics of the stock market, including how it works and key terms every investor should know.",
+        "content": "The stock market is a complex but fascinating world where fortunes are made and lost. In this comprehensive guide, we'll explore the fundamental concepts that every beginner needs to understand.\n\nFirst, let's understand what stocks actually are. When you buy a stock, you're purchasing a small ownership stake in a company. This ownership gives you certain rights, including the potential to benefit from the company's success through dividends and stock price appreciation.\n\nKey concepts we'll cover:\n1. How to read stock quotes\n2. Understanding market indices\n3. The role of brokers\n4. Basic trading strategies\n5. Risk management principles",
+        "image": "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+        "tags": ["investing", "beginner", "stocks"],
+        "likes": 120,
+        "isLiked": false
+      },
+      {
+        "id": 2,
+        "title": "How to Analyze Stocks: Fundamental vs Technical Analysis",
+        "author": "Jane Smith",
+        "published_date": "2025-03-12",
+        "category": "Finance",
+        "summary": "A deep dive into fundamental and technical analysis methods to help investors make better decisions.",
+        "content": "When it comes to analyzing stocks, investors typically use two main approaches: fundamental analysis and technical analysis. Each method has its strengths and can provide valuable insights when making investment decisions.\n\nFundamental Analysis:\nThis approach involves evaluating a company's intrinsic value by examining its financial statements, economic indicators, and industry conditions. Key metrics include:\n- Price-to-Earnings (P/E) ratio\n- Debt-to-Equity ratio\n- Return on Equity (ROE)\n- Cash Flow analysis\n\nTechnical Analysis:\nThis method focuses on studying price movements and trading volumes to identify patterns and trends. Common technical indicators include:\n- Moving averages\n- Relative Strength Index (RSI)\n- MACD (Moving Average Convergence Divergence)\n- Support and resistance levels",
+        "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+        "tags": ["stock analysis", "fundamentals", "technical indicators"],
+        "likes": 98,
+        "isLiked": false
+      },
+      {
+        "id": 3,
+        "title": "Top 5 Stock Market Strategies for Long-Term Investors",
+        "author": "Michael Johnson",
+        "published_date": "2025-02-28",
+        "category": "Investment Strategies",
+        "summary": "Explore the best long-term investment strategies for building wealth in the stock market.",
+        "content": "Long-term investing is one of the most reliable ways to build wealth in the stock market. Here are five time-tested strategies that have proven successful for many investors:\n\n1. Value Investing\nPopularized by Benjamin Graham and Warren Buffett, this strategy involves buying undervalued stocks of quality companies and holding them for the long term.\n\n2. Growth Investing\nFocus on companies with strong growth potential, even if their current valuations seem high.\n\n3. Dividend Growth Investing\nInvest in companies with a history of increasing dividend payments for steady income and capital appreciation.\n\n4. Index Fund Investing\nPassive investment in broad market indices for diversification and lower costs.\n\n5. Dollar-Cost Averaging\nRegularly invest fixed amounts regardless of market conditions to reduce timing risk.",
+        "image": "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+        "tags": ["long-term investing", "strategies", "stocks"],
+        "likes": 150,
+        "isLiked": false
+      },
+      {
+        "id": 4,
+        "title": "Understanding Market Trends: Bull vs Bear Markets",
+        "author": "Emily Davis",
+        "published_date": "2025-03-05",
+        "category": "Market Trends",
+        "summary": "A detailed explanation of bull and bear markets and how investors can navigate them.",
+        "content": "Market trends can significantly impact your investment strategy. Understanding the characteristics of bull and bear markets is crucial for making informed investment decisions.\n\nBull Markets:\n- Characterized by rising prices and optimistic sentiment\n- Usually accompanied by economic growth and low unemployment\n- Typically last longer than bear markets\n- Best strategies: growth investing, momentum trading\n\nBear Markets:\n- Marked by falling prices and pessimistic sentiment\n- Often coincide with economic recessions\n- Can present buying opportunities for long-term investors\n- Best strategies: defensive stocks, dollar-cost averaging\n\nHow to Navigate Both:\n1. Maintain a diversified portfolio\n2. Keep a long-term perspective\n3. Have cash reserves for opportunities\n4. Regular portfolio rebalancing",
+        "image": "https://images.unsplash.com/photo-1569025690938-a00729c9e1f9?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+        "tags": ["market trends", "bull market", "bear market"],
+        "likes": 80,
+        "isLiked": false
+      },
+      {
+        "id": 5,
+        "title": "Best Stocks to Watch in 2025",
+        "author": "Robert White",
+        "published_date": "2025-03-10",
+        "category": "Stock Picks",
+        "summary": "A list of high-potential stocks to keep an eye on in 2025.",
+        "content": "As we move through 2025, several sectors show promising growth potential. Here are some key areas and stocks to watch:\n\nArtificial Intelligence:\n- Companies leveraging AI for business transformation\n- Focus on cloud computing and machine learning applications\n\nRenewable Energy:\n- Solar and wind energy providers\n- Battery technology innovators\n\nHealthcare Technology:\n- Telemedicine platforms\n- Biotechnology research firms\n\nCybersecurity:\n- Cloud security providers\n- Identity protection services\n\nSelection Criteria:\n1. Strong financial fundamentals\n2. Competitive advantages\n3. Growing market share\n4. Quality management team\n5. Reasonable valuations",
+        "image": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
+        "tags": ["stock picks", "2025", "investing"],
+        "likes": 200,
+        "isLiked": false
+      }
+    ]
+  }
