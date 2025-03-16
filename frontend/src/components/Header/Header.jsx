@@ -43,7 +43,8 @@ function Header() {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex space-x-6">
+        {
+          user && <nav className="hidden md:flex space-x-6">
           {navigation.map((item) => (
             <NavLink
               key={item.name}
@@ -58,6 +59,7 @@ function Header() {
             </NavLink>
           ))}
         </nav>
+        }
 
         {/* Right Side: User Authentication & Language Selector */}
         <div className="hidden md:flex flex-row-reverse items-center gap-4">
