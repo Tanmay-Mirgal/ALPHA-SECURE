@@ -96,6 +96,14 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/e-learn"
+            element={
+              <ProtectedRoute>
+              <Lecture />
+              </ProtectedRoute>
+            }
+          />
 
           {/* Redirect unknown routes to Home */}
           <Route path="*" element={<Navigate to="/" />} />
