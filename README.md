@@ -63,7 +63,8 @@
 
 ## 🛠️ Technologies Used
 - **Frontend:** React, Tailwind CSS.
-- **Backend:** Flask, FastAPI.
+- - **Backend:** Node,express.
+- **Python Backend For ML MODELS:** Flask, FastAPI.
 - **Machine Learning:** Python (Google Colab, TensorFlow, Pandas, Scikit-Learn).
 - **Authentication:** JWT, 2FA.
 - **Payments:** Razorpay API.
